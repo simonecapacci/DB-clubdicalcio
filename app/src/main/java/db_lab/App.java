@@ -1,8 +1,12 @@
 package db_lab;
 
+import db_lab.controller.MainController;
 import db_lab.data.DAOException;
 import db_lab.data.DAOUtils;
 import db_lab.model.Model;
+import db_lab.view.JuventusMenu;
+
+import javax.swing.SwingUtilities;
 import java.sql.SQLException;
 
 public final class App {
@@ -14,14 +18,14 @@ public final class App {
         // var model = Model.mock();
         var connection = DAOUtils.localMySQLConnection("tessiland", "root", "");
         var model = Model.fromConnection(connection);
-        var view = new View(() -> {
+        var view = new JuventusMenu(() -> {
             // We want to make sure we close the connection when we're done
             // with our application.
             try {
                 connection.close();
             } catch (Exception ignored) {}
         });
-        var controller = new Controller(model, view);
+        var controller = new MainController(model, view);
         view.setController(controller);
         controller.userRequestedInitialPage();
     }
