@@ -18,7 +18,6 @@ import java.util.Optional;
 public final class DBModel implements Model {
 
     private final Connection connection;
-    private Optional<List<ProductPreview>> previews;
 
     public DBModel(Connection connection) {
         Objects.requireNonNull(connection, "Model created with null connection");
@@ -27,24 +26,9 @@ public final class DBModel implements Model {
     }
 
     @Override
-    public Optional<Product> find(int productCode) {
-        return Product.DAO.find(connection, productCode);
+    public void loginCliente(String email, String pass) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'loginCliente'");
     }
 
-    @Override
-    public List<ProductPreview> previews() {
-        return this.previews.orElse(List.of());
-    }
-
-    @Override
-    public boolean loadedPreviews() {
-        return this.previews.isPresent();
-    }
-
-    @Override
-    public List<ProductPreview> loadPreviews() {
-        var previews = ProductPreview.DAO.list(this.connection);
-        this.previews = Optional.of(previews);
-        return previews;
-    }
 }
