@@ -4,14 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Objects;
+import java.util.Optional;
 
 import db_lab.util.UIUtils;
-import db_lab.controller.MainController;
+import db_lab.controller.Controller;
 
 public class JuventusMenu {
     private final JFrame frame = new JFrame("Juventus Official Portal");
-
-    public JuventusMenu(Runnable onClose , MainController main) {
+    private final Controller controller;
+    private final Login login;
+    public JuventusMenu(Runnable onClose) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(900,620); frame.setLocationRelativeTo(null);
 
@@ -35,12 +38,12 @@ public class JuventusMenu {
         JButton shop  = UIUtils.primary("Shop Online");
         JButton part  = UIUtils.primary("Partite & Classifiche");
 
-        /*login.addActionListener(e -> main.auth());
-        reg.addActionListener(e -> main.auth().openRegister());
-        admin.addActionListener(e -> main.admin());
-        abbo.addActionListener(e -> main.subs());
-        shop.addActionListener(e -> main.shop());
-        part.addActionListener(e -> main.matches());*/
+        login.addActionListener(e -> auth());
+        reg.addActionListener(e -> auth().openRegister());
+        admin.addActionListener(e -> admin());
+        abbo.addActionListener(e -> subs());
+        shop.addActionListener(e -> shop());
+        part.addActionListener(e -> matches());
 
         grid.add(login); grid.add(reg); grid.add(admin); grid.add(abbo); grid.add(shop); grid.add(part);
 
@@ -52,5 +55,16 @@ public class JuventusMenu {
         frame.add(mainPanel);
         frame.addWindowListener(new WindowAdapter(){ public void windowClosing(WindowEvent e){ onClose.run(); }});
         frame.setVisible(true);
+    }
+
+    public void setController(Controller controller) {
+        Objects.requireNonNull(controller, "Set null controller in view");
+        this.controller = controller;
+    }
+
+    public void auth(){
+        var cp = frame.getContentPane();
+        cp.removeAll();
+        frame = login.setUp();
     }
 }
