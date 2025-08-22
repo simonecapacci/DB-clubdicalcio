@@ -31,21 +31,21 @@ public class JuventusMenu {
         JPanel grid = new JPanel(new GridLayout(3,2,15,15));
         grid.setMaximumSize(new Dimension(600,260)); grid.setBackground(Color.BLACK);
 
-        JButton login = UIUtils.primary("Login Utente");
+        JButton loginbtn = UIUtils.primary("Login Utente");
         JButton reg   = UIUtils.primary("Registrati");
         JButton admin = UIUtils.primary("Area Admin");
         JButton abbo  = UIUtils.primary("Area Abbonati");
         JButton shop  = UIUtils.primary("Shop Online");
         JButton part  = UIUtils.primary("Partite & Classifiche");
 
-        login.addActionListener(e -> auth());
+        loginbtn.addActionListener(e -> auth());
         reg.addActionListener(e -> auth().openRegister());
         admin.addActionListener(e -> admin());
         abbo.addActionListener(e -> subs());
         shop.addActionListener(e -> shop());
         part.addActionListener(e -> matches());
 
-        grid.add(login); grid.add(reg); grid.add(admin); grid.add(abbo); grid.add(shop); grid.add(part);
+        grid.add(loginbtn); grid.add(reg); grid.add(admin); grid.add(abbo); grid.add(shop); grid.add(part);
 
         JButton exit = UIUtils.primary("Esci"); exit.addActionListener(e -> System.exit(0));
 
@@ -65,6 +65,10 @@ public class JuventusMenu {
     public void auth(){
         var cp = frame.getContentPane();
         cp.removeAll();
-        frame = login.setUp();
+        login = new Login(this, frame);
+    }
+    
+    public Controller getController(){
+        return this.controller;
     }
 }

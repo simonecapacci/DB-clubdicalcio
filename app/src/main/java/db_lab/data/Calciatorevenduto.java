@@ -1,7 +1,7 @@
 package db_lab.data;
 
 public class Calciatorevenduto {
-      public final int posizione;
+    public final int posizione;
     public final String nome;
     public final String cognome;
     public final String CF;

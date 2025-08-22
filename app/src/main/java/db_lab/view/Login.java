@@ -1,25 +1,8 @@
-/*package db_lab.view;
 
-import javax.swing.JFrame;
-
-public class Login {
-    
-    private JuventusMenu menu;
-    private JFrame frame;
-    private Cliente cliente;
-    private Runnable onClose;
-
-
-    public Login(JuventusMenu menu, JFrame frame, Runnable onClose) {
-        this.menu = menu;
-        this.frame = frame;
-        this.onClose = onClose;
-    }
-
-}*/
 package db_lab.view;
 
 import db_lab.controller.Controller;
+import db_lab.data.Cliente;
 import db_lab.util.*;
 import javax.swing.*;
 import java.awt.*;
@@ -69,13 +52,13 @@ public class Login {
             JOptionPane.showMessageDialog(dialog, "Inserisci email e password.", "Campi mancanti", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        var maybeCliente = ctrl().loginCliente(email, pass); // Optional<Cliente> o simile
-        if (maybeCliente == null || maybeCliente.isEmpty()) {
+        Cliente Cliente = ctrl().loginCliente(email, pass); // Optional<Cliente> o simile
+        if (Cliente == null) {
             JOptionPane.showMessageDialog(dialog, "Credenziali non valide.", "Accesso negato", JOptionPane.ERROR_MESSAGE);
             return;
         } else{
             dialog.dispose();
-        userpage = new UserPage(menu, frame, maybeCliente);
+        userpage = new UserPage(menu, frame, Cliente);
         this.goUserPage();
         }
         

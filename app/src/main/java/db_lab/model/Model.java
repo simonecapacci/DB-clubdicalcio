@@ -1,7 +1,6 @@
 package db_lab.model;
 
-import db_lab.data.Product;
-import db_lab.data.ProductPreview;
+import db_lab.data.Cliente;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
@@ -14,5 +13,5 @@ public interface Model {
         return new DBModel(connection);
     }
 
-    void loginCliente(String email, String pass);
+    Cliente loginCliente(String email, String pass);
 }

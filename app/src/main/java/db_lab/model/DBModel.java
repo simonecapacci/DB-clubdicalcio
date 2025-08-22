@@ -1,7 +1,6 @@
 package db_lab.model;
 
-import db_lab.data.Product;
-import db_lab.data.ProductPreview;
+import db_lab.data.Cliente;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Objects;
@@ -22,13 +21,11 @@ public final class DBModel implements Model {
     public DBModel(Connection connection) {
         Objects.requireNonNull(connection, "Model created with null connection");
         this.connection = connection;
-        this.previews = Optional.empty();
     }
 
     @Override
-    public void loginCliente(String email, String pass) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'loginCliente'");
+    public Cliente loginCliente(String email, String pass) {
+        return Cliente.DAO.loginCliente(email, pass, connection);
     }
 
 }
