@@ -16,18 +16,19 @@ public class Login {
     private final JButton btnLogin  = UIUtils.primary("Accedi");
     private final JButton btnSignup = UIUtils.primary("Registrati");
     private final JButton btnBack   = UIUtils.primary("Indietro");
-    private final UserPage userpage;
+    //private final UserPage userpage;
 
     /** Costruttore principale: passi il menu (per il controller) e il frame (owner della dialog). */
     public Login(JuventusMenu menu, JFrame ownerFrame) {
         this.menu = menu;
         this.frame = ownerFrame;
         this.dialog = new JDialog(ownerFrame, "Accedi", true); // modal
-        buildUI(dialog.getContentPane());
+        dialog.setContentPane(buildUI());
         wireActions();
         dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         dialog.pack();
         dialog.setLocationRelativeTo(ownerFrame);
+        dialog.setVisible(true);
     }
 
     private static JFrame findFrame(Component c) {
@@ -38,12 +39,24 @@ public class Login {
     private Controller ctrl() { return menu.getController(); }
 
     // --- UI & azioni (identiche) ---
-    private void buildUI(Container root) { /* ... identico a prima ... */ }
+    private JPanel buildUI() {
+    var panel = new JPanel(new GridBagLayout());
+    var gbc = new GridBagConstraints();
+    gbc.insets = new Insets(8, 10, 8, 10);
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.gridx = 0; gbc.gridy = 0; panel.add(new JLabel("Email"), gbc);
+    gbc.gridx = 1; emailField.setColumns(20); panel.add(emailField, gbc);
+    gbc.gridx = 0; gbc.gridy = 1; panel.add(new JLabel("Password"), gbc);
+    gbc.gridx = 1; passField.setColumns(20); panel.add(passField, gbc);
+    gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2; panel.add(btnLogin, gbc);
+    return panel;
+}
+
     private void wireActions() {
         dialog.getRootPane().setDefaultButton(btnLogin);
         btnLogin.addActionListener(e -> doLoginCliente());
-        btnSignup.addActionListener(e -> { dialog.setVisible(false); ctrl().openRegister(); });
-        btnBack.addActionListener(e -> { dialog.dispose(); ctrl().showMenu(); });
+        //btnSignup.addActionListener(e -> { dialog.setVisible(false); ctrl().openRegister(); });
+        //btnBack.addActionListener(e -> { dialog.dispose(); ctrl().showMenu(); });
     }
     private void doLoginCliente() {
         String email = emailField.getText().trim();
@@ -58,17 +71,17 @@ public class Login {
             return;
         } else{
             dialog.dispose();
-        userpage = new UserPage(menu, frame, Cliente);
-        this.goUserPage();
+            //userpage = new UserPage(menu, frame, Cliente);
+            //this.goUserPage();
         }
         
     }
 
     public void resetAndShow() { emailField.setText(""); passField.setText(""); dialog.setVisible(true); }
 
-    public void goUserPage() {
+    /*public void goUserPage() {
         userpage.setUp(); 
-    }
+    }*/
 }
 
 

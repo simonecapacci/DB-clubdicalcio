@@ -164,4 +164,12 @@ public final class Queries {
         LIMIT 1 
 
         """;
+    public static final String FIND_CLIENT = 
+        """
+        SELECT *
+        FROM CLIENTE
+        WHERE CLIENTE.MAIL = ?
+        AND CLIENTE.PASSWORD = ? 
+               
+        """;
 }

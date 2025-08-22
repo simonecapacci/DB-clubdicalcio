@@ -2,10 +2,12 @@ package db_lab.view;
 
 import javax.swing.JFrame;
 
+import db_lab.data.Cliente;
+
 public class UserPage {
     private final JuventusMenu menu;
     private final JFrame frame;
-    private final Cliente cliente
+    private final Cliente cliente;
     public UserPage(JuventusMenu menu, JFrame frame, Cliente maybeCliente) {
         this.menu = menu;
         this.frame = frame;

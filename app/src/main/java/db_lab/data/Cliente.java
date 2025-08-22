@@ -26,16 +26,17 @@ public class Cliente {
                 return null;
             }
             try (
-                var preparedStatement = DAOUtils.prepare(connection, Queries.FIND_CLIENTE/*da cambiare */, Mail, Password);
+                var preparedStatement = DAOUtils.prepare(connection, Queries.FIND_CLIENT, Mail, Password);
                 var resultSet = preparedStatement.executeQuery();
             ) {
                 if (resultSet.next()) {
                     var Cf = resultSet.getString("CF");
                     var nome = resultSet.getString("Nome");
                     var cognome = resultSet.getString("Cognome");
-                    var email = resultSet.getString("E_mail");
+                    var indirizzodispedizione = resultSet.getString("Indirizzodispedizione");
+                    var email = resultSet.getString("Mail");
                     var password = resultSet.getString("Password");
-                    cliente = new Cliente(Cf, nome, cognome, cognome, email, password);
+                    cliente = new Cliente(Cf, nome, cognome, indirizzodispedizione, email, password);
                 }
             } catch (Exception e) {
                 throw new DAOException(e);

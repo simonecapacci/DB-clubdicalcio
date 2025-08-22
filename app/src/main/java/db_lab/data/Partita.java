@@ -7,7 +7,7 @@ public class Partita {
        public final String competizione;
        public final int risultato;
 
-}
+
 
 public Partita (String data, String squadraAvversaria, String competizione, int risultato) {
         this.data = data;
@@ -15,5 +15,5 @@ public Partita (String data, String squadraAvversaria, String competizione, int 
         this.competizione = competizione;
         this.risultato = risultato;
     }
-
+}
     

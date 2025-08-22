@@ -4,6 +4,7 @@ import db_lab.view.JuventusMenu;
 
 import java.util.Objects;
 
+import db_lab.data.Cliente;
 import db_lab.model.*;
 
 public class Controller {

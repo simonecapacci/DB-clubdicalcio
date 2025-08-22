@@ -12,8 +12,8 @@ import db_lab.controller.Controller;
 
 public class JuventusMenu {
     private final JFrame frame = new JFrame("Juventus Official Portal");
-    private final Controller controller;
-    private final Login login;
+    private Controller controller;
+    private Login login;
     public JuventusMenu(Runnable onClose) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(900,620); frame.setLocationRelativeTo(null);
@@ -39,11 +39,11 @@ public class JuventusMenu {
         JButton part  = UIUtils.primary("Partite & Classifiche");
 
         loginbtn.addActionListener(e -> auth());
-        reg.addActionListener(e -> auth().openRegister());
-        admin.addActionListener(e -> admin());
-        abbo.addActionListener(e -> subs());
-        shop.addActionListener(e -> shop());
-        part.addActionListener(e -> matches());
+        //reg.addActionListener(e -> auth().openRegister());
+        //admin.addActionListener(e -> admin());
+        //abbo.addActionListener(e -> subs());
+        //shop.addActionListener(e -> shop());
+        //part.addActionListener(e -> matches());
 
         grid.add(loginbtn); grid.add(reg); grid.add(admin); grid.add(abbo); grid.add(shop); grid.add(part);
 
@@ -63,8 +63,8 @@ public class JuventusMenu {
     }
 
     public void auth(){
-        var cp = frame.getContentPane();
-        cp.removeAll();
+        //var cp = frame.getContentPane();
+        //cp.removeAll();
         login = new Login(this, frame);
     }
     

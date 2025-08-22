@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public final class App {
 
     public static void main(String[] args) throws SQLException {
-        var connection = DAOUtils.localMySQLConnection("tessiland", "root", "");
+        var connection = DAOUtils.localMySQLConnection("juventusfc", "root", "");
         var model = Model.fromConnection(connection);
         var view = new JuventusMenu(() -> {
             // We want to make sure we close the connection when we're done
@@ -23,6 +23,6 @@ public final class App {
         });
         var controller = new Controller(model);
         view.setController(controller);
-        controller.userRequestedInitialPage();
+        //controller.userRequestedInitialPage();
     }
 }
