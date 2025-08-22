@@ -14,9 +14,7 @@ public class Login {
     private final JTextField emailField = new JTextField();
     private final JPasswordField passField = new JPasswordField();
     private final JButton btnLogin  = UIUtils.primary("Accedi");
-    private final JButton btnSignup = UIUtils.primary("Registrati");
-    private final JButton btnBack   = UIUtils.primary("Indietro");
-    //private final UserPage userpage;
+    private UserPage userpage;
 
     /** Costruttore principale: passi il menu (per il controller) e il frame (owner della dialog). */
     public Login(JuventusMenu menu, JFrame ownerFrame) {
@@ -55,8 +53,6 @@ public class Login {
     private void wireActions() {
         dialog.getRootPane().setDefaultButton(btnLogin);
         btnLogin.addActionListener(e -> doLoginCliente());
-        //btnSignup.addActionListener(e -> { dialog.setVisible(false); ctrl().openRegister(); });
-        //btnBack.addActionListener(e -> { dialog.dispose(); ctrl().showMenu(); });
     }
     private void doLoginCliente() {
         String email = emailField.getText().trim();
@@ -71,17 +67,19 @@ public class Login {
             return;
         } else{
             dialog.dispose();
-            //userpage = new UserPage(menu, frame, Cliente);
-            //this.goUserPage();
+            userpage = new UserPage(menu, frame, Cliente);
+            this.goUserPage();
         }
         
     }
 
     public void resetAndShow() { emailField.setText(""); passField.setText(""); dialog.setVisible(true); }
 
-    /*public void goUserPage() {
+    public void goUserPage() {
+        var cp = frame.getContentPane();
+        cp.removeAll();
         userpage.setUp(); 
-    }*/
+    }
 }
 
 

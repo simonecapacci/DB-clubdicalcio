@@ -18,6 +18,7 @@ public class Cliente {
         this.Mail = Mail;
         this.Password = Password;
     }
+    
 
     public static final class DAO{
         public static Cliente loginCliente(String Mail, String Password, Connection connection){

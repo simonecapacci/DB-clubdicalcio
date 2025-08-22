@@ -11,10 +11,16 @@ import db_lab.util.UIUtils;
 import db_lab.controller.Controller;
 
 public class JuventusMenu {
-    private final JFrame frame = new JFrame("Juventus Official Portal");
+    private final JFrame frame;
     private Controller controller;
     private Login login;
-    public JuventusMenu(Runnable onClose) {
+    private final Runnable onClose;
+    public JuventusMenu(Runnable onClose){
+        frame = new JFrame("Juventus Official Portal");
+        this.onClose = onClose;
+    }
+    public void setUp() {
+        frame.getContentPane().removeAll();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(900,620); frame.setLocationRelativeTo(null);
 
@@ -63,8 +69,6 @@ public class JuventusMenu {
     }
 
     public void auth(){
-        //var cp = frame.getContentPane();
-        //cp.removeAll();
         login = new Login(this, frame);
     }
     

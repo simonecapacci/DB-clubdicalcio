@@ -21,6 +21,7 @@ public final class App {
                 connection.close();
             } catch (Exception ignored) {}
         });
+        view.setUp();
         var controller = new Controller(model);
         view.setController(controller);
         //controller.userRequestedInitialPage();
