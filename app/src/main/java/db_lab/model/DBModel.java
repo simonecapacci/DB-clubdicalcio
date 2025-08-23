@@ -3,6 +3,7 @@ package db_lab.model;
 import db_lab.data.AssistPersonali;
 import db_lab.data.Calciatore;
 import db_lab.data.Cliente;
+import db_lab.data.Dirigente;
 import db_lab.data.GoalPersonali;
 
 import java.sql.Connection;
@@ -40,6 +41,11 @@ public final class DBModel implements Model {
     @Override
     public List<GoalPersonali> getTopScorers() {
         return Calciatore.DAO.getTopScorers(connection);
+    }
+
+    @Override
+    public Dirigente loginAdmin(String cf, String pass) {
+        return Dirigente.DAO.loginAdmin(cf, pass, connection);
     }
 
 }

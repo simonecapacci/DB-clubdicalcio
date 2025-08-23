@@ -32,5 +32,9 @@ public class Controller {
         return this.model.getTopAssistmen();
     }
 
+    public Dirigente loginAdmin(String cf, String pass) {
+        return this.model.loginAdmin(cf,pass);
+    }
+
 
 }

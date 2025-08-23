@@ -40,18 +40,16 @@ public class JuventusMenu {
         JButton loginbtn = UIUtils.primary("Login Utente");
         JButton reg   = UIUtils.primary("Registrati");
         JButton admin = UIUtils.primary("Area Admin");
-        JButton abbo  = UIUtils.primary("Area Abbonati");
-        JButton shop  = UIUtils.primary("Shop Online");
+        //JButton abbo  = UIUtils.primary("Area Abbonati");
+        //JButton shop  = UIUtils.primary("Shop Online");
         JButton part  = UIUtils.primary("Partite & Classifiche");
 
         loginbtn.addActionListener(e -> auth());
         //reg.addActionListener(e -> auth().openRegister());
-        //admin.addActionListener(e -> admin());
-        //abbo.addActionListener(e -> subs());
-        //shop.addActionListener(e -> shop());
+        admin.addActionListener(e -> admin());
         //part.addActionListener(e -> matches());
 
-        grid.add(loginbtn); grid.add(reg); grid.add(admin); grid.add(abbo); grid.add(shop); grid.add(part);
+        grid.add(loginbtn); grid.add(reg); grid.add(admin); grid.add(part);
 
         JButton exit = UIUtils.primary("Esci"); exit.addActionListener(e -> System.exit(0));
 
@@ -63,13 +61,16 @@ public class JuventusMenu {
         frame.setVisible(true);
     }
 
+    private void admin() {
+        login = new AdminLogin(this, frame); 
+    }
     public void setController(Controller controller) {
         Objects.requireNonNull(controller, "Set null controller in view");
         this.controller = controller;
     }
 
-    public void auth(){
-        login = new Login(this, frame);
+    public void auth() {
+        login = new UserLogin(this, frame);
     }
     
     public Controller getController(){

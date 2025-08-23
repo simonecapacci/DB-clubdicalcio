@@ -3,6 +3,7 @@ package db_lab.model;
 import db_lab.data.AssistPersonali;
 import db_lab.data.Calciatore;
 import db_lab.data.Cliente;
+import db_lab.data.Dirigente;
 import db_lab.data.GoalPersonali;
 
 import java.sql.Connection;
@@ -22,4 +23,6 @@ public interface Model {
     List<AssistPersonali> getTopAssistmen();
 
     List<GoalPersonali> getTopScorers();
+
+    Dirigente loginAdmin(String cf, String pass);
 }

@@ -178,4 +178,11 @@ public final class Queries {
         AND CLIENTE.PASSWORD = ? 
                
         """;
+    public static final String FIND_ADMIN = 
+        """
+        SELECT *
+        FROM DIRIGENTE
+        WHERE DIRIGENTE.CF = ?
+        AND DIRIGENTE.PASSWORD = ?
+        """;
 }
