@@ -2,9 +2,12 @@ package db_lab.controller;
 
 import db_lab.view.JuventusMenu;
 
+import java.util.List;
 import java.util.Objects;
 
-import db_lab.data.Cliente;
+import javax.swing.JFrame;
+
+import db_lab.data.*;
 import db_lab.model.*;
 
 public class Controller {
@@ -20,7 +23,14 @@ public class Controller {
     public Cliente loginCliente(String email, String pass) {
         return this.model.loginCliente(email, pass);
     }
+    
+    public List<GoalPersonali> getTopScorers(){
+        return this.model.getTopScorers();
+    }
 
+    public List<AssistPersonali> getTopAssistmen(){
+        return this.model.getTopAssistmen();
+    }
 
 
 }

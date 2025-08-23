@@ -1,6 +1,10 @@
 package db_lab.model;
 
+import db_lab.data.AssistPersonali;
+import db_lab.data.Calciatore;
 import db_lab.data.Cliente;
+import db_lab.data.GoalPersonali;
+
 import java.sql.Connection;
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +30,16 @@ public final class DBModel implements Model {
     @Override
     public Cliente loginCliente(String email, String pass) {
         return Cliente.DAO.loginCliente(email, pass, connection);
+    }
+
+    @Override
+    public List<AssistPersonali> getTopAssistmen() {
+        return Calciatore.DAO.getTopAssistmen(connection);
+    }
+
+    @Override
+    public List<GoalPersonali> getTopScorers() {
+        return Calciatore.DAO.getTopScorers(connection);
     }
 
 }

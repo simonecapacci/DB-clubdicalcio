@@ -14,7 +14,7 @@ public class Cliente {
         this.CF = CF;
         this.Nome = Nome;
         this.Cognome = Cognome;
-        this. Indirizzodispedizione = Indirizzodispedizione;
+        this.Indirizzodispedizione = Indirizzodispedizione;
         this.Mail = Mail;
         this.Password = Password;
     }
@@ -23,7 +23,7 @@ public class Cliente {
     public static final class DAO{
         public static Cliente loginCliente(String Mail, String Password, Connection connection){
             Cliente cliente = null;
-            if (Mail==null || Password == null ){
+            if (Mail==null || Password == null){
                 return null;
             }
             try (

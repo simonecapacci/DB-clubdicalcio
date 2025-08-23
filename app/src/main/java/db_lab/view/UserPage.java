@@ -24,7 +24,8 @@ public class UserPage {
         this.frame = frame;
         this.cliente = maybeCliente;
     }
-
+    //qjsL8Xzc
+    //martina.bianchi629@email.com
     /** Costruisce e mostra la pagina utente dentro lo stesso frame del menu. */
     public void setUp() {
         Container cp = frame.getContentPane();
@@ -33,10 +34,12 @@ public class UserPage {
 
         // --- Barra superiore con "Indietro" in disparte ---
         JPanel north = new JPanel(new BorderLayout());
+        north.setBackground(Color.BLACK);
         JPanel backWrap = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 8));
         // il bottone "Indietro" un filo più compatto
         btnBack.setMaximumSize(new Dimension(140, 36));
         backWrap.add(btnBack);
+        backWrap.setBackground(Color.BLACK);
         north.add(backWrap, BorderLayout.WEST);
 
         // opzionale: saluto a destra se disponibile il cliente
@@ -44,8 +47,10 @@ public class UserPage {
             String nome = (cliente.Nome != null) ? cliente.Nome : "Utente";
             JLabel hello = new JLabel("Ciao, " + nome + "!");
             hello.setFont(new Font("Arial", Font.BOLD, 16));
+            hello.setForeground(Color.WHITE);
             JPanel greetWrap = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 10));
             greetWrap.add(hello);
+            greetWrap.setBackground(Color.BLACK);
             north.add(greetWrap, BorderLayout.EAST);
         }
         cp.add(north, BorderLayout.NORTH);
@@ -54,10 +59,12 @@ public class UserPage {
         JPanel center = new JPanel();
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
         center.setBorder(BorderFactory.createEmptyBorder(24, 24, 24, 24));
+        center.setBackground(Color.BLACK);
 
         // Titolo pagina (stile semplice, coerente)
         JLabel title = new JLabel("Area Utente");
         title.setFont(new Font("Arial", Font.BOLD, 22));
+        title.setForeground(Color.WHITE);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         center.add(title);
         center.add(Box.createRigidArea(new Dimension(0, 18)));
@@ -98,8 +105,7 @@ public class UserPage {
 
         btnTopPlayers.addActionListener(e -> {
             // TODO: apri/passa alla pagina "Migliori giocatori"
-            // if (controller != null) controller.userRequestedTopPlayersPage(frame);
-            JOptionPane.showMessageDialog(frame, "Aprire pagina Migliori giocatori (TODO)");
+            this.goTopPlayersPage();
         });
 
         btnBack.addActionListener(e -> {
@@ -119,5 +125,11 @@ public class UserPage {
                 frame.repaint();
             }
         });
+    }
+    private void goTopPlayersPage() {
+        var cp = frame.getContentPane();
+        cp.removeAll();
+        final TopPlayersPage tpp = new TopPlayersPage(menu, frame);
+        tpp.setUp();
     }
 }

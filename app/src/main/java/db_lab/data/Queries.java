@@ -40,29 +40,35 @@ public final class Queries {
         LIMIT 1
         """;
 
-    public static final String BEST_PLAYERS =
+    public static final String BEST_PLAYERS_BY_GOALS =
         """
         SELECT c.Nome, c.Cognome , SUM(GOL)
 
-        FROM Calciatore as c,  Statistiche Individuali as si 
+        FROM Calciatore as c,  statistiche_individuali as si 
 
         WHERE c.CF = si.CF	 
 
-        GROUP BY c.Nome,c.Cognome 
+        GROUP BY c.Nome,c.Cognome
+        
+        HAVING SUM(GOL) > 0 
 
         ORDER BY SUM(GOL) DESC 
-
-        (La seconda funzionalità sottoelencata è speculare a quella precedentemente vista) 
-
+ 
+        """;
+    public static final String BEST_PLAYERS_BY_ASSISTS = 
+        """
         SELECT c.Nome, c.Cognome , SUM(ASSIST) 
 
-        FROM Calciatore as c,  Statistiche Individuali as si 
+        FROM Calciatore as c,  statistiche_individuali as si 
 
         WHERE c.CF = si.CF	 
 
-        GROUP BY c.Nome,c.Cognome 
+        GROUP BY c.Nome,c.Cognome
+        
+        HAVING SUM(ASSIST) > 0 
 
-        ORDER BY SUM(ASSIST) DESC 
+        ORDER BY SUM(ASSIST) DESC
+        
         """;
 
     public static final String  ORDER_SUM =
