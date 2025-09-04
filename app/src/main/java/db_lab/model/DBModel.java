@@ -48,4 +48,14 @@ public final class DBModel implements Model {
         return Dirigente.DAO.loginAdmin(cf, pass, connection);
     }
 
+    @Override
+    public boolean findClienteByCF(String cf) {
+        return Cliente.DAO.findClienteByCF(cf, connection);
+    }
+
+    @Override
+    public boolean registerCliente(String cf, String nome, String cognome, String indirizzodispedizione, String email, String pass) {
+        return Cliente.DAO.registerCliente(cf, nome, cognome, indirizzodispedizione, email, pass, connection);
+    }
+
 }

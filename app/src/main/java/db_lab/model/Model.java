@@ -25,4 +25,8 @@ public interface Model {
     List<GoalPersonali> getTopScorers();
 
     Dirigente loginAdmin(String cf, String pass);
+
+    boolean findClienteByCF(String cf);
+
+    boolean registerCliente(String cf, String nome, String cognome, String indirizzodispedizione, String email, String pass);
 }

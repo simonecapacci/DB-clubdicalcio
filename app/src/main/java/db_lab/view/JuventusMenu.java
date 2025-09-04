@@ -14,6 +14,7 @@ public class JuventusMenu {
     private final JFrame frame;
     private Controller controller;
     private Login login;
+    private UserRegister signup;
     private final Runnable onClose;
     public JuventusMenu(Runnable onClose){
         frame = new JFrame("Juventus Official Portal");
@@ -45,7 +46,7 @@ public class JuventusMenu {
         JButton part  = UIUtils.primary("Partite & Classifiche");
 
         loginbtn.addActionListener(e -> auth());
-        //reg.addActionListener(e -> auth().openRegister());
+        reg.addActionListener(e -> openRegister());
         admin.addActionListener(e -> admin());
         //part.addActionListener(e -> matches());
 
@@ -61,6 +62,10 @@ public class JuventusMenu {
         frame.setVisible(true);
     }
 
+    private void openRegister() {
+        signup = new UserRegister(this, frame);
+        signup.open();
+    }
     private void admin() {
         login = new AdminLogin(this, frame); 
     }

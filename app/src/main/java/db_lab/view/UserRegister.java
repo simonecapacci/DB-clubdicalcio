@@ -22,6 +22,7 @@ public class UserRegister {
     private JTextField nomeField;
     private JTextField cognomeField;
     private JTextField cfField;
+    private JTextField indirizzoField;
     private JTextField emailField;
     private JPasswordField passField;
 
@@ -54,11 +55,12 @@ public class UserRegister {
         gc.gridy = 0;
 
         // Campi
-        nomeField     = textField(20);
-        cognomeField  = textField(20);
-        cfField       = textField(16);
-        emailField    = textField(24);
-        passField     = new JPasswordField(24);
+        nomeField      = textField(20);
+        cognomeField   = textField(20);
+        cfField        = textField(16);
+        indirizzoField = textField(30);
+        emailField     = textField(24);
+        passField      = new JPasswordField(24);
 
         // CF: limita a 16 e upper-case
         ((AbstractDocument) cfField.getDocument()).setDocumentFilter(new LengthFilter(16));
@@ -67,6 +69,7 @@ public class UserRegister {
         addRow(form, gc, "Nome",    nomeField);
         addRow(form, gc, "Cognome", cognomeField);
         addRow(form, gc, "CF",      cfField);
+        addRow(form, gc, "Indirizzo", indirizzoField);
         addRow(form, gc, "Email",   emailField);
         addRow(form, gc, "Password",passField);
 
@@ -100,6 +103,7 @@ public class UserRegister {
         String nome   = nomeField.getText().trim();
         String cogn   = cognomeField.getText().trim();
         String cf     = cfField.getText().trim().toUpperCase();
+        String indirizzo = indirizzoField.getText().trim();
         String email  = emailField.getText().trim();
         String pass   = new String(passField.getPassword());
 
@@ -116,21 +120,14 @@ public class UserRegister {
             JOptionPane.showMessageDialog(dialog, "Email non valida.", "Formato email", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
+        
         Controller c = menu.getController();
 
         // 1) Controllo esistenza utente (per CF)
-        // TODO: adattare al nome metodo reale nel tuo Controller
-        Object gia = null;
-        try {
-            // Esempio: Cliente findClienteByCF(String cf) -> null se assente
-            gia = c.getClass().getMethod("findClienteByCF", String.class).invoke(c, cf);
-        } catch (Exception ignored) {
-            // In alternativa, se hai existsClienteByCF(String): usa quello.
-            // Oppure sostituisci il reflection con c.findClienteByCF(cf) se il metodo esiste già.
-        }
+        boolean giaEsistente = false;
+        giaEsistente = c.findClienteByCF(cf);
 
-        if (gia != null) {
+        if (giaEsistente) {
             JOptionPane.showMessageDialog(dialog,
                     "Sei già registrato. Effettua il login con la tua email e password.",
                     "Utente già presente", JOptionPane.INFORMATION_MESSAGE);
@@ -141,24 +138,7 @@ public class UserRegister {
 
         // 2) Registrazione
         boolean ok = false;
-        try {
-            // Esempio: boolean registerCliente(cf, nome, cogn, email, pass)
-            ok = (boolean) c.getClass()
-                    .getMethod("registerCliente", String.class, String.class, String.class, String.class, String.class)
-                    .invoke(c, cf, nome, cogn, email, pass);
-        } catch (NoSuchMethodException nsme) {
-            // Fallback: se la tua API usa un oggetto Cliente, chiama il tuo metodo addCliente(new Cliente(...))
-            // Sostituisci questo blocco con la tua chiamata reale.
-            JOptionPane.showMessageDialog(dialog,
-                    "Metodo di registrazione non trovato nel Controller. Sostituisci la chiamata con la tua API (es. addCliente/insertCliente).",
-                    "Implementazione Controller", JOptionPane.ERROR_MESSAGE);
-            return;
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(dialog,
-                    "Errore durante la registrazione:\n" + ex.getMessage(),
-                    "Errore", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        ok = c.registerCliente(cf, nome, cogn, indirizzo, email, pass);
 
         if (!ok) {
             JOptionPane.showMessageDialog(dialog,

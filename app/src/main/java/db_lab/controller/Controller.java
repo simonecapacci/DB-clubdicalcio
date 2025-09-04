@@ -36,5 +36,13 @@ public class Controller {
         return this.model.loginAdmin(cf,pass);
     }
 
+    public boolean findClienteByCF(String cf){
+        return this.model.findClienteByCF(cf);
+    }
+
+    public boolean registerCliente(String cf, String nome, String cognome, String indirizzodispedizione, String email, String pass){
+        return this.model.registerCliente(cf, nome, cognome, indirizzodispedizione, email, pass);
+    }
+
 
 }

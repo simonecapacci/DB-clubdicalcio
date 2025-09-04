@@ -185,4 +185,18 @@ public final class Queries {
         WHERE DIRIGENTE.CF = ?
         AND DIRIGENTE.PASSWORD = ?
         """;
+    public static final String FIND_CLIENT_BY_CF = 
+        """
+        SELECT *
+        FROM CLIENTE
+        WHERE CLIENTE.CF = ?
+
+        """;
+    public static final String SIGN_UP = 
+        """
+        INSERT INTO CLIENTE
+        (CF, NOME, COGNOME, INDIRIZZODISPEDIZIONE, MAIL, PASSWORD) 
+        VALUES
+        (?, ?, ?, ?, ?, ?)       
+        """;
 }
