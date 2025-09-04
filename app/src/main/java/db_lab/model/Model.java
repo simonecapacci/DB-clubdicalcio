@@ -29,4 +29,14 @@ public interface Model {
     boolean findClienteByCF(String cf);
 
     boolean registerCliente(String cf, String nome, String cognome, String indirizzodispedizione, String email, String pass);
+
+    // --- Admin: gestione dipendenti ---
+    boolean removeCalciatore(String cf);
+    boolean registerCalciatore(String cf, String nome, String cognome, int numeroMaglia, int idContratto);
+
+    boolean removeMembroStaff(String cf);
+    boolean registerMembroStaff(String cf, String ruolo, String nome, String cognome, int idContratto);
+
+    boolean removeGuida(String cf);
+    boolean registerGuida(String cf, String nome, String cognome, int turnoLavorativo, int idContratto);
 }

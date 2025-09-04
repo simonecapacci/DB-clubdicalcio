@@ -1,14 +1,17 @@
 package db_lab.data;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Dirigente {
-public final String CF;
-public final String nome;
-public final String cognome;
-public final String ruolo;
-public final int IDcontratto;
-public final String password;
+    public final String CF;
+    public final String nome;
+    public final String cognome;
+    public final String ruolo;
+    public final int IDcontratto;
+    public final String password;
+    
     public Dirigente(String CF, String ruolo, String cognome, String nome, int IDcontratto, String password){
         this.cognome=cognome;
         this.nome=nome;
@@ -33,7 +36,7 @@ public final String password;
                     var cognome = resultSet.getString("Cognome");
                     var ruolo = resultSet.getString("Ruolo");
                     var IDcontratto = resultSet.getInt("IDcontratto");
-                    var password = resultSet.getString("Password");
+                    var password = resultSet.getString("Pass");
                     admin = new Dirigente(Cf, ruolo, cognome, nome, IDcontratto, password);
                 }
             } catch (Exception e) {
@@ -43,3 +46,4 @@ public final String password;
         }
     }
 }
+

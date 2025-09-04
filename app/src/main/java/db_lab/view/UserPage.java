@@ -129,7 +129,7 @@ public class UserPage {
     private void goTopPlayersPage() {
         var cp = frame.getContentPane();
         cp.removeAll();
-        final TopPlayersPage tpp = new TopPlayersPage(menu, frame);
+        final TopPlayersPage tpp = new TopPlayersPage(menu, this, frame);
         tpp.setUp();
     }
 }

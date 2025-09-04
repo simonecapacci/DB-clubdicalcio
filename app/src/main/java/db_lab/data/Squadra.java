@@ -6,10 +6,11 @@ public final class Squadra {
     public final int coppeNazionaliVinte;
     public final int coppeEuropeeVinte;
 
-}
+
 
 public Squadra(int campionatiVinti, int coppeNazionaliVinte, int coppeEuropeeVinte) {
         this.campionatiVinti = campionatiVinti;
         this.coppeNazionaliVinte = coppeNazionaliVinte;
         this.coppeEuropeeVinte = coppeEuropeeVinte;
     }
+}

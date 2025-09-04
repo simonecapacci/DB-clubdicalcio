@@ -33,8 +33,9 @@ public class AdminLogin extends Login {
 
     @Override
     protected void goNextPage() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'goNextPage'");
+        var cp = frame.getContentPane();
+        cp.removeAll();
+        adminpage.setUp();
     }
     
 }

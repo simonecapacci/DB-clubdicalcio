@@ -2,11 +2,41 @@ package db_lab.data;
 
 public final class Queries {
 
-    public static final String ADD_STAFF =
+    // --- Admin: gestione dipendenti ---
+    public static final String REMOVE_CALCIATORE =
         """
-        INSERT INTO Membro Staff (Nome, Cognome, CF, Ruolo)
+        DELETE FROM CALCIATORE
+        WHERE CF = ?
+        """;
 
-        VALUES (?, ?, ?, ?) 
+    public static final String INSERT_CALCIATORE =
+        """
+        INSERT INTO CALCIATORE (CF, NOME, COGNOME, NUMEROMAGLIA, IDCONTRATTO)
+        VALUES (?, ?, ?, ?, ?)
+        """;
+
+    public static final String REMOVE_MEMBROSTAFF =
+        """
+        DELETE FROM MEMBROSTAFF
+        WHERE CF = ?
+        """;
+
+    public static final String INSERT_MEMBROSTAFF =
+        """
+        INSERT INTO MEMBROSTAFF (CF, RUOLO, NOME, COGNOME, IDCONTRATTO)
+        VALUES (?, ?, ?, ?, ?)
+        """;
+
+    public static final String REMOVE_GUIDA =
+        """
+        DELETE FROM GUIDA
+        WHERE CF = ?
+        """;
+
+    public static final String INSERT_GUIDA =
+        """
+        INSERT INTO GUIDA (CF, NOME, COGNOME, TURNOLAVORATIVO, IDCONTRATTO)
+        VALUES (?, ?, ?, ?, ?)
         """;
 
     public static final String VIEW_CLIENTS_AT_A_GAME =
@@ -183,7 +213,7 @@ public final class Queries {
         SELECT *
         FROM DIRIGENTE
         WHERE DIRIGENTE.CF = ?
-        AND DIRIGENTE.PASSWORD = ?
+        AND DIRIGENTE.PASS = ?
         """;
     public static final String FIND_CLIENT_BY_CF = 
         """

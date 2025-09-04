@@ -7,7 +7,7 @@ public final class Stagione {
     public final int esitoInCoppa;
     public final int esitoInCoppaEuropea;
 
-}
+
 
 public Stagione(int anno, int posizioneInClassifica, int esitoInCoppa, int esitoInCoppaEuropea) {
         this.anno = anno;
@@ -15,3 +15,4 @@ public Stagione(int anno, int posizioneInClassifica, int esitoInCoppa, int esito
         this.esitoInCoppa = esitoInCoppa;
         this.esitoInCoppaEuropea = esitoInCoppaEuropea;
     }
+}

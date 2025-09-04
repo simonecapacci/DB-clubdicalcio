@@ -16,6 +16,7 @@ import java.util.List;
 public class TopPlayersPage {
     private final JuventusMenu menu; // facoltativo: per tornare indietro
     private final JFrame frame;
+    private final UserPage userPage;
 
     // Modelli dati
     private final DefaultListModel<String> scorersModel = new DefaultListModel<>();
@@ -29,9 +30,10 @@ public class TopPlayersPage {
     private final JList<String> listScorers = new JList<>(scorersModel);
     private final JList<String> listAssists = new JList<>(assistsModel);
 
-    public TopPlayersPage(JuventusMenu menu, JFrame frame) {
+    public TopPlayersPage(JuventusMenu menu, UserPage userPage, JFrame frame) {
         this.menu = menu;
         this.frame = frame;
+        this.userPage = userPage;
         configureLookAndFeel();
         wireActions();
     }
@@ -45,7 +47,7 @@ public class TopPlayersPage {
         List<GoalPersonali> marcatori = null;
         List<AssistPersonali> assistman = null;
         try {
-            Controller controller = (menu != null) ? menu.getController() : null;
+            Controller controller = menu.getController();
             if (controller != null) {
                 marcatori = controller.getTopScorers();
                 assistman = controller.getTopAssistmen();
@@ -153,24 +155,7 @@ public class TopPlayersPage {
 
     private void wireActions() {
         btnBack.addActionListener(e -> {
-            if (menu != null) {
-                try {
-                    // Torna al menu principale riutilizzando lo stesso frame
-                    JuventusMenu.class.getMethod("setUp").invoke(menu);
-                } catch (Exception ex) {
-                    // Fallback neutro
-                    Container cp = frame.getContentPane();
-                    cp.removeAll();
-                    JPanel placeholder = new JPanel(new GridBagLayout());
-                    placeholder.setBackground(Color.BLACK);
-                    JLabel lbl = new JLabel("Torna al menu principale (implementa menu.setUp())");
-                    lbl.setForeground(Color.WHITE);
-                    placeholder.add(lbl);
-                    cp.add(placeholder, BorderLayout.CENTER);
-                    frame.revalidate();
-                    frame.repaint();
-                }
-            }
+            userPage.setUp();
         });
     }
 

@@ -44,5 +44,27 @@ public class Controller {
         return this.model.registerCliente(cf, nome, cognome, indirizzodispedizione, email, pass);
     }
 
+    // --- Admin: gestione dipendenti ---
+    public boolean removeCalciatore(String cf) {
+        return this.model.removeCalciatore(cf);
+    }
+    public boolean registerCalciatore(String cf, String nome, String cognome, int numeroMaglia, int idContratto) {
+        return this.model.registerCalciatore(cf, nome, cognome, numeroMaglia, idContratto);
+    }
+
+    public boolean removeMembroStaff(String cf) {
+        return this.model.removeMembroStaff(cf);
+    }
+    public boolean registerMembroStaff(String cf, String ruolo, String nome, String cognome, int idContratto) {
+        return this.model.registerMembroStaff(cf, ruolo, nome, cognome, idContratto);
+    }
+
+    public boolean removeGuida(String cf) {
+        return this.model.removeGuida(cf);
+    }
+    public boolean registerGuida(String cf, String nome, String cognome, int turnoLavorativo, int idContratto) {
+        return this.model.registerGuida(cf, nome, cognome, turnoLavorativo, idContratto);
+    }
+
 
 }

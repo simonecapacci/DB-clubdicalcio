@@ -60,5 +60,29 @@ public class Calciatore {
             return list;
         }
 
+        public static boolean removeCalciatore(String cf, Connection connection) {
+            if (cf == null || cf.isBlank()) return false;
+            try (
+                var ps = DAOUtils.prepare(connection, Queries.REMOVE_CALCIATORE, cf);
+            ) {
+                int updated = ps.executeUpdate();
+                return updated > 0;
+            } catch (SQLException e) {
+                return false;
+            }
+        }
+
+        public static boolean registerCalciatore(String cf, String nome, String cognome, int numeroMaglia, int idContratto, Connection connection) {
+            if (cf == null || cf.isBlank()) return false;
+            try (
+                var ps = DAOUtils.prepare(connection, Queries.INSERT_CALCIATORE, cf, nome, cognome, numeroMaglia, idContratto);
+            ) {
+                ps.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                return false;
+            }
+        }
+
     }
 }

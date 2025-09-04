@@ -58,4 +58,35 @@ public final class DBModel implements Model {
         return Cliente.DAO.registerCliente(cf, nome, cognome, indirizzodispedizione, email, pass, connection);
     }
 
+    // --- Admin: gestione dipendenti ---
+    @Override
+    public boolean removeCalciatore(String cf) {
+        return db_lab.data.Calciatore.DAO.removeCalciatore(cf, connection);
+    }
+
+    @Override
+    public boolean registerCalciatore(String cf, String nome, String cognome, int numeroMaglia, int idContratto) {
+        return db_lab.data.Calciatore.DAO.registerCalciatore(cf, nome, cognome, numeroMaglia, idContratto, connection);
+    }
+
+    @Override
+    public boolean removeMembroStaff(String cf) {
+        return db_lab.data.Membrostaff.DAO.removeMembroStaff(cf, connection);
+    }
+
+    @Override
+    public boolean registerMembroStaff(String cf, String ruolo, String nome, String cognome, int idContratto) {
+        return db_lab.data.Membrostaff.DAO.registerMembroStaff(cf, ruolo, nome, cognome, idContratto, connection);
+    }
+
+    @Override
+    public boolean removeGuida(String cf) {
+        return db_lab.data.Guida.DAO.removeGuida(cf, connection);
+    }
+
+    @Override
+    public boolean registerGuida(String cf, String nome, String cognome, int turnoLavorativo, int idContratto) {
+        return db_lab.data.Guida.DAO.registerGuida(cf, nome, cognome, turnoLavorativo, idContratto, connection);
+    }
+
 }
