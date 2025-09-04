@@ -31,6 +31,7 @@ public interface Model {
     boolean registerCliente(String cf, String nome, String cognome, String indirizzodispedizione, String email, String pass);
 
     // --- Admin: gestione dipendenti ---
+    boolean findCalciatoreByCF(String cf);
     boolean removeCalciatore(String cf);
     boolean registerCalciatore(String cf, String nome, String cognome, int numeroMaglia, int idContratto);
 
@@ -38,5 +39,10 @@ public interface Model {
     boolean registerMembroStaff(String cf, String ruolo, String nome, String cognome, int idContratto);
 
     boolean removeGuida(String cf);
-    boolean registerGuida(String cf, String nome, String cognome, int turnoLavorativo, int idContratto);
+    boolean registerGuida(String cf, String nome, String cognome, String turnoLavorativo, int idContratto);
+
+    // Inserimenti di supporto
+    boolean addContratto(int idContratto, String dataStipulazione, String durata, int stipendio);
+    boolean addTrasferimento(int idTrasferimento, String clubCoinvolto, int valoreTrasferimento,
+                             String durataPrestitoOrNull, String dataTrasferimento, String cf);
 }

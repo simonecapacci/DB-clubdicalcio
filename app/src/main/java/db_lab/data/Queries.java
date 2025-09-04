@@ -15,6 +15,14 @@ public final class Queries {
         VALUES (?, ?, ?, ?, ?)
         """;
 
+    public static final String FIND_CALCIATORE_BY_CF =
+        """
+        SELECT 1
+        FROM CALCIATORE
+        WHERE CF = ?
+        LIMIT 1
+        """;
+
     public static final String REMOVE_MEMBROSTAFF =
         """
         DELETE FROM MEMBROSTAFF
@@ -37,6 +45,18 @@ public final class Queries {
         """
         INSERT INTO GUIDA (CF, NOME, COGNOME, TURNOLAVORATIVO, IDCONTRATTO)
         VALUES (?, ?, ?, ?, ?)
+        """;
+
+    public static final String INSERT_CONTRATTO =
+        """
+        INSERT INTO CONTRATTO (IDCONTRATTO, DATASTIPULAZIONE, DURATA, STIPENDIO)
+        VALUES (?, ?, ?, ?)
+        """;
+
+    public static final String INSERT_TRASFERIMENTO =
+        """
+        INSERT INTO TRASFERIMENTO (IDTRASFERIMENTO, CLUBCOINVOLTO, VALORETRASFERIMENTO, DURATAPRESTITO, DATATRASFERIMENTO, CF)
+        VALUES (?, ?, ?, ?, ?, ?)
         """;
 
     public static final String VIEW_CLIENTS_AT_A_GAME =

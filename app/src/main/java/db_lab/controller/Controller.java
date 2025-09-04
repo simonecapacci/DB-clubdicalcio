@@ -45,6 +45,9 @@ public class Controller {
     }
 
     // --- Admin: gestione dipendenti ---
+    public boolean findCalciatoreByCF(String cf) {
+        return this.model.findCalciatoreByCF(cf);
+    }
     public boolean removeCalciatore(String cf) {
         return this.model.removeCalciatore(cf);
     }
@@ -62,8 +65,18 @@ public class Controller {
     public boolean removeGuida(String cf) {
         return this.model.removeGuida(cf);
     }
-    public boolean registerGuida(String cf, String nome, String cognome, int turnoLavorativo, int idContratto) {
+    public boolean registerGuida(String cf, String nome, String cognome, String turnoLavorativo, int idContratto) {
         return this.model.registerGuida(cf, nome, cognome, turnoLavorativo, idContratto);
+    }
+
+    // --- Inserimenti di supporto ---
+    public boolean addContratto(int idContratto, String dataStipulazione, String durata, int stipendio) {
+        return this.model.addContratto(idContratto, dataStipulazione, durata, stipendio);
+    }
+    public boolean addTrasferimento(int idTrasferimento, String clubCoinvolto, int valoreTrasferimento,
+                                    String durataPrestitoOrNull, String dataTrasferimento, String cf) {
+        return this.model.addTrasferimento(idTrasferimento, clubCoinvolto, valoreTrasferimento,
+                durataPrestitoOrNull, dataTrasferimento, cf);
     }
 
 

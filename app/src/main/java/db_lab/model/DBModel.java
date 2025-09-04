@@ -60,6 +60,11 @@ public final class DBModel implements Model {
 
     // --- Admin: gestione dipendenti ---
     @Override
+    public boolean findCalciatoreByCF(String cf) {
+        return db_lab.data.Calciatore.DAO.findCalciatoreByCF(cf, connection);
+    }
+
+    @Override
     public boolean removeCalciatore(String cf) {
         return db_lab.data.Calciatore.DAO.removeCalciatore(cf, connection);
     }
@@ -85,8 +90,21 @@ public final class DBModel implements Model {
     }
 
     @Override
-    public boolean registerGuida(String cf, String nome, String cognome, int turnoLavorativo, int idContratto) {
+    public boolean registerGuida(String cf, String nome, String cognome, String turnoLavorativo, int idContratto) {
         return db_lab.data.Guida.DAO.registerGuida(cf, nome, cognome, turnoLavorativo, idContratto, connection);
+    }
+
+    // --- Inserimenti di supporto ---
+    @Override
+    public boolean addContratto(int idContratto, String dataStipulazione, String durata, int stipendio) {
+        return db_lab.data.Contratto.DAO.addContratto(idContratto, dataStipulazione, durata, stipendio, connection);
+    }
+
+    @Override
+    public boolean addTrasferimento(int idTrasferimento, String clubCoinvolto, int valoreTrasferimento,
+                                    String durataPrestitoOrNull, String dataTrasferimento, String cf) {
+        return db_lab.data.Trasferimento.DAO.addTrasferimento(idTrasferimento, clubCoinvolto, valoreTrasferimento,
+                durataPrestitoOrNull, dataTrasferimento, cf, connection);
     }
 
 }

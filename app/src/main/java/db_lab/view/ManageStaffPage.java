@@ -251,8 +251,25 @@ public class ManageStaffPage {
             // Aggiorna anche il campo visivo per coerenza
             tfIdContratto.setText(String.valueOf(idContratto));
 
-            boolean ok = controller.registerCalciatore(cf, nome, cognome, numeroMaglia, idContratto);
-            JOptionPane.showMessageDialog(frame, ok ? "Calciatore registrato con successo." : "Registrazione calciatore fallita.");
+            // Persisti contratto prima del giocatore (FK)
+            boolean okContr = controller.addContratto(contract.idContratto, contract.data, contract.durata, contract.stipendio);
+            if (!okContr) {
+                JOptionPane.showMessageDialog(frame, "Salvataggio contratto fallito.");
+                return;
+            }
+
+            // Registra calciatore
+            boolean okPlayer = controller.registerCalciatore(cf, nome, cognome, numeroMaglia, idContratto);
+            if (!okPlayer) {
+                JOptionPane.showMessageDialog(frame, "Registrazione calciatore fallita.");
+                return;
+            }
+
+            // Infine persisti il trasferimento (entrata)
+            boolean okTrans = controller.addTrasferimento(transfer.idTrasferimento, transfer.club, transfer.valore,
+                    transfer.durataPrestitoOrNull, transfer.data, cf);
+            JOptionPane.showMessageDialog(frame, (okContr && okPlayer && okTrans) ?
+                    "Calciatore registrato con successo." : "Registrazione completata parzialmente (trasferimento non salvato).");
         });
 
         btnRimuoviCalciatore.addActionListener(e -> {
@@ -262,9 +279,22 @@ public class ManageStaffPage {
                 JOptionPane.showMessageDialog(frame, "Inserire CF per rimuovere un calciatore");
                 return;
             }
-            // Prima chiedi dettagli trasferimento (uscita)
+            // Verifica esistenza calciatore prima di qualsiasi dialog
+            boolean exists = controller.findCalciatoreByCF(cf);
+            if (!exists) {
+                JOptionPane.showMessageDialog(frame, "Il giocatore non esiste");
+                return;
+            }
+            // Poi chiedi dettagli trasferimento (uscita)
             TransferData transfer = promptTransferDetails(cf);
             if (transfer == null) return; // annullato
+            // Salva trasferimento in uscita prima di rimuovere
+            boolean okTrans = controller.addTrasferimento(transfer.idTrasferimento, transfer.club, transfer.valore,
+                    transfer.durataPrestitoOrNull, transfer.data, cf);
+            if (!okTrans) {
+                JOptionPane.showMessageDialog(frame, "Salvataggio trasferimento fallito. Operazione annullata.");
+                return;
+            }
             boolean ok = controller.removeCalciatore(cf);
             JOptionPane.showMessageDialog(frame, ok ? "Calciatore rimosso." : "Nessun calciatore rimosso.");
         });
@@ -276,15 +306,20 @@ public class ManageStaffPage {
             String nome = tfStaffNome.getText().trim();
             String cognome = tfStaffCognome.getText().trim();
             String idContrattoStr = tfStaffIdContratto.getText().trim();
-            if (cf.isEmpty() || ruolo.isEmpty() || nome.isEmpty() || cognome.isEmpty() || idContrattoStr.isEmpty()) {
+            if (cf.isEmpty() || ruolo.isEmpty() || nome.isEmpty() || cognome.isEmpty()) {
                 JOptionPane.showMessageDialog(frame, "Compila tutti i campi per registrare il membro dello staff.");
                 return;
             }
-            int idContratto;
-            try {
-                idContratto = Integer.parseInt(idContrattoStr);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(frame, "ID Contratto deve essere un numero intero.");
+            Integer defaultId = null;
+            try { defaultId = idContrattoStr.isBlank() ? null : Integer.parseInt(idContrattoStr); } catch (NumberFormatException ignore) {}
+            ContractData contract = promptContractDetails(defaultId);
+            if (contract == null) return;
+            int idContratto = contract.idContratto;
+            tfStaffIdContratto.setText(String.valueOf(idContratto));
+
+            boolean okContr = controller.addContratto(contract.idContratto, contract.data, contract.durata, contract.stipendio);
+            if (!okContr) {
+                JOptionPane.showMessageDialog(frame, "Salvataggio contratto fallito.");
                 return;
             }
             boolean ok = controller.registerMembroStaff(cf, ruolo, nome, cognome, idContratto);
@@ -309,19 +344,25 @@ public class ManageStaffPage {
             String cognome = tfGuidaCognome.getText().trim();
             String turnoStr = tfGuidaTurno.getText().trim();
             String idContrattoStr = tfGuidaIdContratto.getText().trim();
-            if (cf.isEmpty() || nome.isEmpty() || cognome.isEmpty() || turnoStr.isEmpty() || idContrattoStr.isEmpty()) {
+            if (cf.isEmpty() || nome.isEmpty() || cognome.isEmpty() || turnoStr.isEmpty()) {
                 JOptionPane.showMessageDialog(frame, "Compila tutti i campi per registrare la guida.");
                 return;
             }
-            int turno, idContratto;
-            try {
-                turno = Integer.parseInt(turnoStr);
-                idContratto = Integer.parseInt(idContrattoStr);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(frame, "Turno Lavorativo e ID Contratto devono essere numeri interi.");
+
+            Integer defaultId = null;
+            try { defaultId = idContrattoStr.isBlank() ? null : Integer.parseInt(idContrattoStr); } catch (NumberFormatException ignore) {}
+            ContractData contract = promptContractDetails(defaultId);
+            if (contract == null) return;
+            int idContratto = contract.idContratto;
+            tfGuidaIdContratto.setText(String.valueOf(idContratto));
+            
+            //data in formato "year-mo-da"
+            boolean okContr = controller.addContratto(contract.idContratto, contract.data, contract.durata, contract.stipendio);
+            if (!okContr) {
+                JOptionPane.showMessageDialog(frame, "Salvataggio contratto fallito.");
                 return;
             }
-            boolean ok = controller.registerGuida(cf, nome, cognome, turno, idContratto);
+            boolean ok = controller.registerGuida(cf, nome, cognome, turnoStr, idContratto);
             JOptionPane.showMessageDialog(frame, ok ? "Guida registrata con successo." : "Registrazione guida fallita.");
         });
 

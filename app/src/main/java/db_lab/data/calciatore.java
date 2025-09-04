@@ -60,6 +60,18 @@ public class Calciatore {
             return list;
         }
 
+        public static boolean findCalciatoreByCF(String cf, Connection connection) {
+            if (cf == null || cf.isBlank()) return false;
+            try (
+                var ps = DAOUtils.prepare(connection, Queries.FIND_CALCIATORE_BY_CF, cf);
+                var rs = ps.executeQuery();
+            ) {
+                return rs.next();
+            } catch (SQLException e) {
+                return false;
+            }
+        }
+
         public static boolean removeCalciatore(String cf, Connection connection) {
             if (cf == null || cf.isBlank()) return false;
             try (
