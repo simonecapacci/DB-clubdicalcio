@@ -5,6 +5,8 @@ import db_lab.data.Calciatore;
 import db_lab.data.Cliente;
 import db_lab.data.Dirigente;
 import db_lab.data.GoalPersonali;
+import db_lab.data.Partita;
+import db_lab.data.TopSeller;
 
 import java.sql.Connection;
 import java.util.List;
@@ -105,6 +107,21 @@ public final class DBModel implements Model {
                                     String durataPrestitoOrNull, String dataTrasferimento, String cf) {
         return db_lab.data.Trasferimento.DAO.addTrasferimento(idTrasferimento, clubCoinvolto, valoreTrasferimento,
                 durataPrestitoOrNull, dataTrasferimento, cf, connection);
+    }
+
+    @Override
+    public java.util.List<Partita> listPartite() {
+        return db_lab.data.Partita.DAO.listAll(connection);
+    }
+
+    @Override
+    public int countSpettatori(int idPartita) {
+        return db_lab.data.Partita.DAO.countSpettatori(idPartita, connection);
+    }
+
+    @Override
+    public java.util.Optional<TopSeller> getTopJerseySeller() {
+        return java.util.Optional.ofNullable(db_lab.data.Calciatore.DAO.getTopJerseySeller(connection));
     }
 
 }

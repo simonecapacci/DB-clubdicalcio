@@ -249,4 +249,19 @@ public final class Queries {
         VALUES
         (?, ?, ?, ?, ?, ?)       
         """;
+
+    // --- Partite & Presenze ---
+    public static final String LIST_PARTITE =
+        """
+        SELECT IDPartita, Data, SquadraAvversaria, Competizione, Risultato
+        FROM partita
+        ORDER BY Data DESC, IDPartita DESC
+        """;
+
+    public static final String COUNT_SPETTATORI_PARTITA =
+        """
+        SELECT COUNT(*) AS spettatori
+        FROM presenze
+        WHERE IDPartita = ?
+        """;
 }

@@ -96,5 +96,28 @@ public class Calciatore {
             }
         }
 
+        public static TopSeller getTopJerseySeller(Connection connection) {
+            String sql = "SELECT c.Nome, c.Cognome, COUNT(*) AS Vendite " +
+                         "FROM articolo_personale ap " +
+                         "JOIN calciatore c ON c.CF = ap.CFCalciatore " +
+                         "GROUP BY c.CF, c.Nome, c.Cognome " +
+                         "ORDER BY Vendite DESC " +
+                         "LIMIT 1";
+            try (
+                var ps = connection.prepareStatement(sql);
+                var rs = ps.executeQuery();
+            ) {
+                if (rs.next()) {
+                    String nome = rs.getString("Nome");
+                    String cognome = rs.getString("Cognome");
+                    int vendite = rs.getInt("Vendite");
+                    return new TopSeller(nome, cognome, vendite);
+                }
+                return null;
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
+        }
+
     }
 }

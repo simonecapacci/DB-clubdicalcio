@@ -5,6 +5,8 @@ import db_lab.data.Calciatore;
 import db_lab.data.Cliente;
 import db_lab.data.Dirigente;
 import db_lab.data.GoalPersonali;
+import db_lab.data.Partita;
+import db_lab.data.TopSeller;
 
 import java.sql.Connection;
 import java.util.List;
@@ -45,4 +47,10 @@ public interface Model {
     boolean addContratto(int idContratto, String dataStipulazione, String durata, int stipendio);
     boolean addTrasferimento(int idTrasferimento, String clubCoinvolto, int valoreTrasferimento,
                              String durataPrestitoOrNull, String dataTrasferimento, String cf);
+
+    // Partite & Presenze
+    java.util.List<Partita> listPartite();
+    int countSpettatori(int idPartita);
+
+    java.util.Optional<TopSeller> getTopJerseySeller();
 }

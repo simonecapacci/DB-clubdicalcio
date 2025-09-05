@@ -79,5 +79,18 @@ public class Controller {
                 durataPrestitoOrNull, dataTrasferimento, cf);
     }
 
+    // --- Partite & Presenze ---
+    public java.util.List<Partita> listPartite() {
+        return this.model.listPartite();
+    }
+
+    public int countSpettatori(int idPartita) {
+        return this.model.countSpettatori(idPartita);
+    }
+
+    public java.util.Optional<TopSeller> getTopJerseySeller() {
+        return this.model.getTopJerseySeller();
+    }
+
 
 }

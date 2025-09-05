@@ -48,7 +48,7 @@ public class JuventusMenu {
         loginbtn.addActionListener(e -> auth());
         reg.addActionListener(e -> openRegister());
         admin.addActionListener(e -> admin());
-        //part.addActionListener(e -> matches());
+        part.addActionListener(e -> openMatches());
 
         grid.add(loginbtn); grid.add(reg); grid.add(admin); grid.add(part);
 
@@ -80,5 +80,11 @@ public class JuventusMenu {
     
     public Controller getController(){
         return this.controller;
+    }
+
+    private void openMatches() {
+        // Reuse the same frame; show MatchesPage
+        MatchesPage page = new MatchesPage(this, frame);
+        page.setUp();
     }
 }
