@@ -53,4 +53,7 @@ public interface Model {
     int countSpettatori(int idPartita);
 
     java.util.Optional<TopSeller> getTopJerseySeller();
+
+    // Abbonamenti
+    boolean addAbbonamento(String cf, String tipoAbbonamento, int anno);
 }

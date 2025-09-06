@@ -124,4 +124,10 @@ public final class DBModel implements Model {
         return java.util.Optional.ofNullable(db_lab.data.Calciatore.DAO.getTopJerseySeller(connection));
     }
 
+    // --- Abbonamenti ---
+    @Override
+    public boolean addAbbonamento(String cf, String tipoAbbonamento, int anno) {
+        return db_lab.data.Abbonamento.DAO.addAbbonamento(cf, tipoAbbonamento, anno, connection);
+    }
+
 }

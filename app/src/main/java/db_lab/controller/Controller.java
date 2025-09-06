@@ -92,5 +92,10 @@ public class Controller {
         return this.model.getTopJerseySeller();
     }
 
+    // --- Abbonamenti ---
+    public boolean addAbbonamento(String cf, String tipoAbbonamento, int anno) {
+        return this.model.addAbbonamento(cf, tipoAbbonamento, anno);
+    }
+
 
 }

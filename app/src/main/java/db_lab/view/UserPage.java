@@ -98,9 +98,38 @@ public class UserPage {
         });
 
         btnAbbonati.addActionListener(e -> {
-            // TODO: apri/passa alla pagina "Abbonamenti"
-            // if (controller != null) controller.userRequestedSubscriptionPage(frame);
-            JOptionPane.showMessageDialog(frame, "Aprire pagina Abbonati (TODO)");
+            // Pop-up per scegliere il tipo di abbonamento
+            String[] tipi = {"completo", "normale", "essenziale"};
+            String tipo = (String) JOptionPane.showInputDialog(
+                    frame,
+                    "Scegli il tipo di abbonamento:",
+                    "Abbonamento",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    tipi,
+                    tipi[0]
+            );
+
+            if (tipo == null) {
+                // Annullato dall'utente
+                return;
+            }
+
+            if (cliente == null || cliente.CF == null || cliente.CF.isBlank()) {
+                JOptionPane.showMessageDialog(frame, "Effettua il login per abbonarti.", "Non autenticato", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            boolean ok = false;
+            if (controller != null) {
+                ok = controller.addAbbonamento(cliente.CF, tipo, 2026);
+            }
+
+            if (ok) {
+                JOptionPane.showMessageDialog(frame, "Benvenuto tra gli abbonati!");
+            } else {
+                JOptionPane.showMessageDialog(frame, "Impossibile completare l'abbonamento.", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         btnTopPlayers.addActionListener(e -> {

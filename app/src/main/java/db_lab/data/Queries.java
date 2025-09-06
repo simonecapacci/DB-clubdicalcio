@@ -264,4 +264,17 @@ public final class Queries {
         FROM presenze
         WHERE IDPartita = ?
         """;
+
+    // --- Abbonamento ---
+    public static final String MAX_ABBONAMENTO_ID =
+        """
+        SELECT COALESCE(MAX(IDabbonamento), 0) AS maxId
+        FROM abbonamento
+        """;
+
+    public static final String INSERT_ABBONAMENTO =
+        """
+        INSERT INTO abbonamento (IDabbonamento, Anno, Tipodiabbonamento, CF)
+        VALUES (?, ?, ?, ?)
+        """;
 }
