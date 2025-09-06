@@ -277,4 +277,12 @@ public final class Queries {
         INSERT INTO abbonamento (IDabbonamento, Anno, Tipodiabbonamento, CF)
         VALUES (?, ?, ?, ?)
         """;
+
+    public static final String EXISTS_ABBONAMENTO_PER_ANNO =
+        """
+        SELECT 1
+        FROM abbonamento
+        WHERE CF = ? AND Anno = ?
+        LIMIT 1
+        """;
 }

@@ -130,4 +130,9 @@ public final class DBModel implements Model {
         return db_lab.data.Abbonamento.DAO.addAbbonamento(cf, tipoAbbonamento, anno, connection);
     }
 
+    @Override
+    public boolean hasAbbonamento(String cf, int anno) {
+        return db_lab.data.Abbonamento.DAO.hasAbbonamento(cf, anno, connection);
+    }
+
 }

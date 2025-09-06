@@ -98,6 +98,16 @@ public class UserPage {
         });
 
         btnAbbonati.addActionListener(e -> {
+            if (cliente == null || cliente.CF == null || cliente.CF.isBlank()) {
+                JOptionPane.showMessageDialog(frame, "Effettua il login per abbonarti.", "Non autenticato", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (controller != null && controller.hasAbbonamento(cliente.CF, 2026)) {
+                JOptionPane.showMessageDialog(frame, "Sei già abbonato per la stagione 2026.", "Già abbonato", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
             // Pop-up per scegliere il tipo di abbonamento
             String[] tipi = {"completo", "normale", "essenziale"};
             String tipo = (String) JOptionPane.showInputDialog(
@@ -115,11 +125,6 @@ public class UserPage {
                 return;
             }
 
-            if (cliente == null || cliente.CF == null || cliente.CF.isBlank()) {
-                JOptionPane.showMessageDialog(frame, "Effettua il login per abbonarti.", "Non autenticato", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
             boolean ok = false;
             if (controller != null) {
                 ok = controller.addAbbonamento(cliente.CF, tipo, 2026);
@@ -128,7 +133,8 @@ public class UserPage {
             if (ok) {
                 JOptionPane.showMessageDialog(frame, "Benvenuto tra gli abbonati!");
             } else {
-                JOptionPane.showMessageDialog(frame, "Impossibile completare l'abbonamento.", "Errore", JOptionPane.ERROR_MESSAGE);
+                // Potrebbe essere fallito per race-condition/duplicato
+                JOptionPane.showMessageDialog(frame, "Impossibile completare l'abbonamento (forse sei già abbonato).", "Errore", JOptionPane.ERROR_MESSAGE);
             }
         });
 

@@ -56,4 +56,5 @@ public interface Model {
 
     // Abbonamenti
     boolean addAbbonamento(String cf, String tipoAbbonamento, int anno);
+    boolean hasAbbonamento(String cf, int anno);
 }

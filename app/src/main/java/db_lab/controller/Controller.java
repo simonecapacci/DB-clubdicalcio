@@ -97,5 +97,9 @@ public class Controller {
         return this.model.addAbbonamento(cf, tipoAbbonamento, anno);
     }
 
+    public boolean hasAbbonamento(String cf, int anno) {
+        return this.model.hasAbbonamento(cf, anno);
+    }
+
 
 }
