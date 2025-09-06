@@ -4,10 +4,12 @@ public class Abbonamento {
     public final int idAbbonamento;
     public final int stagione;
     public final String tipoAbbonamento;
+    public final String cf;
     
-        public Abbonamento(int idAbbonamento, int stagione, String tipoAbbonamento){
+        public Abbonamento(int idAbbonamento, int stagione, String tipoAbbonamento, String cf){
             this.idAbbonamento=idAbbonamento;
             this.stagione=stagione;
             this.tipoAbbonamento=tipoAbbonamento;
+            this.cf = cf;
         }
 }

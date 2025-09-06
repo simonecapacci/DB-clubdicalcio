@@ -248,8 +248,9 @@ VALUES
 ('Balocco', 1006, 2900000, '2023-11-01', '2026-10-31', 'TRNTNC82A16L219B');
 CREATE TABLE `juventusfc`.`prodotto` (
   `Codiceprodotto` INT NOT NULL,
-  `Importo` INT NOT NULL,
-  `Codiceordine` INT NOT NULL,
+  `Importo` FLOAT NOT NULL,
+  `Nome` VARCHAR(45) NULL,
+  `Tipologia` VARCHAR(45) NULL,
   PRIMARY KEY (`Codiceprodotto`),
   UNIQUE INDEX `Codiceprodotto_UNIQUE` (`Codiceprodotto` ASC) VISIBLE);
 CREATE TABLE `juventusfc`.`ordine` (
@@ -520,257 +521,30 @@ INSERT INTO juventusfc.ordine (Codiceordine, Data, Rimborsato, CF) VALUES
 (148, '2025-04-30', 0, 'OOICFW03W15CWLPK') ,
 (149, '2024-07-27', 0, 'LLEAEF32K22C4Z3K') ,
 (150, '2023-08-04', 0, 'IDODWG65E10RDF4K') ;
-INSERT INTO juventusfc.prodotto (Codiceprodotto, Importo, Codiceordine) VALUES
-(1, 61, 92),
-(2, 49, 132),
-(3, 131, 71),
-(4, 53, 69),
-(5, 289, 12),
-(6, 258, 149),
-(7, 48, 70),
-(8, 231, 116),
-(9, 263, 5),
-(10, 40, 51),
-(11, 85, 33),
-(12, 138, 114),
-(13, 195, 55),
-(14, 248, 126),
-(15, 167, 64),
-(16, 148, 29),
-(17, 224, 111),
-(18, 244, 146),
-(19, 231, 131),
-(20, 120, 20),
-(21, 181, 72),
-(22, 110, 115),
-(23, 138, 73),
-(24, 181, 145),
-(25, 211, 59),
-(26, 277, 123),
-(27, 141, 85),
-(28, 143, 35),
-(29, 82, 104),
-(30, 269, 106),
-(31, 256, 150),
-(32, 122, 147),
-(33, 275, 58),
-(34, 106, 98),
-(35, 144, 47),
-(36, 145, 89),
-(37, 157, 133),
-(38, 15, 24),
-(39, 181, 75),
-(40, 124, 101),
-(41, 242, 80),
-(42, 109, 113),
-(43, 186, 23),
-(44, 37, 54),
-(45, 248, 124),
-(46, 30, 18),
-(47, 119, 10),
-(48, 194, 67),
-(49, 124, 140),
-(50, 66, 40),
-(51, 54, 110),
-(52, 27, 46),
-(53, 90, 25),
-(54, 154, 107),
-(55, 166, 15),
-(56, 191, 118),
-(57, 54, 48),
-(58, 219, 84),
-(59, 96, 88),
-(60, 67, 21),
-(61, 171, 99),
-(62, 86, 53),
-(63, 163, 100),
-(64, 116, 39),
-(65, 227, 82),
-(66, 181, 137),
-(67, 257, 94),
-(68, 161, 77),
-(69, 96, 45),
-(70, 141, 37),
-(71, 52, 138),
-(72, 164, 3),
-(73, 231, 60),
-(74, 272, 4),
-(75, 139, 148),
-(76, 153, 66),
-(77, 231, 14),
-(78, 263, 27),
-(79, 21, 17),
-(80, 230, 95),
-(81, 233, 127),
-(82, 283, 136),
-(83, 10, 86),
-(84, 235, 63),
-(85, 92, 61),
-(86, 198, 36),
-(87, 165, 128),
-(88, 279, 143),
-(89, 272, 42),
-(90, 80, 19),
-(91, 134, 1),
-(92, 270, 141),
-(93, 147, 44),
-(94, 292, 117),
-(95, 287, 96),
-(96, 79, 57),
-(97, 300, 8),
-(98, 273, 31),
-(99, 158, 109),
-(100, 254, 78),
-(101, 299, 43),
-(102, 139, 81),
-(103, 249, 50),
-(104, 51, 105),
-(105, 38, 38),
-(106, 13, 11),
-(107, 96, 68),
-(108, 218, 16),
-(109, 14, 22),
-(110, 277, 2),
-(111, 191, 108),
-(112, 268, 7),
-(113, 185, 120),
-(114, 266, 139),
-(115, 181, 65),
-(116, 205, 102),
-(117, 204, 93),
-(118, 118, 62),
-(119, 33, 49),
-(120, 130, 13),
-(121, 158, 83),
-(122, 48, 32),
-(123, 252, 130),
-(124, 20, 34),
-(125, 62, 134),
-(126, 68, 91),
-(127, 52, 74),
-(128, 140, 135),
-(129, 277, 97),
-(130, 126, 90),
-(131, 223, 144),
-(132, 239, 112),
-(133, 32, 41),
-(134, 113, 122),
-(135, 44, 9),
-(136, 201, 56),
-(137, 107, 121),
-(138, 234, 6),
-(139, 248, 30),
-(140, 265, 26),
-(141, 291, 28),
-(142, 215, 129),
-(143, 128, 103),
-(144, 157, 52),
-(145, 270, 119),
-(146, 26, 125),
-(147, 196, 76),
-(148, 99, 87),
-(149, 88, 142),
-(150, 93, 79),
-(151, 170, 15),
-(152, 112, 30),
-(153, 42, 85),
-(154, 70, 111),
-(155, 185, 100),
-(156, 108, 72),
-(157, 209, 77),
-(158, 92, 81),
-(159, 166, 42),
-(160, 63, 130),
-(161, 126, 88),
-(162, 190, 119),
-(163, 162, 48),
-(164, 199, 37),
-(165, 221, 139),
-(166, 199, 9),
-(167, 122, 149),
-(168, 244, 36),
-(169, 156, 110),
-(170, 73, 73),
-(171, 128, 116),
-(172, 137, 85),
-(173, 158, 106),
-(174, 33, 67),
-(175, 254, 53),
-(176, 147, 128),
-(177, 251, 133),
-(178, 276, 84),
-(179, 176, 23),
-(180, 28, 110),
-(181, 181, 32),
-(182, 58, 3),
-(183, 75, 35),
-(184, 220, 80),
-(185, 293, 30),
-(186, 249, 50),
-(187, 23, 33),
-(188, 123, 114),
-(189, 268, 67),
-(190, 246, 133),
-(191, 292, 62),
-(192, 140, 83),
-(193, 121, 3),
-(194, 170, 2),
-(195, 118, 3),
-(196, 50, 19),
-(197, 259, 17),
-(198, 54, 54),
-(199, 180, 100),
-(200, 29, 101),
-(201, 93, 37),
-(202, 47, 139),
-(203, 240, 8),
-(204, 56, 48),
-(205, 279, 76),
-(206, 184, 138),
-(207, 254, 71),
-(208, 193, 121),
-(209, 216, 125),
-(210, 269, 44),
-(211, 114, 52),
-(212, 71, 56),
-(213, 88, 100),
-(214, 238, 86),
-(215, 36, 32),
-(216, 155, 7),
-(217, 127, 53),
-(218, 190, 42),
-(219, 173, 21),
-(220, 105, 44),
-(221, 118, 22),
-(222, 40, 18),
-(223, 54, 21),
-(224, 193, 71),
-(225, 201, 129),
-(226, 75, 65),
-(227, 109, 18),
-(228, 259, 69),
-(229, 297, 42),
-(230, 65, 22),
-(231, 72, 100),
-(232, 177, 114),
-(233, 222, 133),
-(234, 246, 20),
-(235, 15, 22),
-(236, 209, 58),
-(237, 110, 49),
-(238, 252, 17),
-(239, 44, 100),
-(240, 102, 84),
-(241, 197, 117),
-(242, 189, 55),
-(243, 164, 145),
-(244, 146, 106),
-(245, 81, 129),
-(246, 55, 139),
-(247, 87, 13),
-(248, 176, 30),
-(249, 218, 80),
-(250, 29, 131);
+INSERT INTO juventusfc.prodotto (Codiceprodotto, Importo, Tipologia, Nome) VALUES
+(1, 35.00, "Articologenerale", "Zaini e borse sportive"),
+(2, 5.00, "Articologenerale", "Portachiavi con logo"),
+(3, 20.00, "Articologenerale", "Portafogli"),
+(4, 3.50, "Articologenerale", "Braccialetti e laccetti da collo"),
+(5, 15.00, "Articologenerale", "Cover per smartphone"),
+(6, 60.00, "Articologenerale", "Orologi o smartband brandizzati"),
+(7, 10.00, "Articologenerale", "Tazze e bicchieri"),
+(8, 12.00, "Articologenerale", "Bottiglie e borracce"),
+(9, 25.00, "Articologenerale", "Cuscini e plaid"),
+(10, 18.00, "Articologenerale", "Poster e quadri con stadio/squadra"),
+(11, 20.00, "Articologenerale", "Sveglie e calendari"),
+(12, 8.00, "Articologenerale", "Set da scrivania (penne, quaderni, mousepad)"),
+(13, 30.00, "Articologenerale", "Palloni ufficiali"),
+(14, 12.00, "Articologenerale", "Scarpette in miniatura / memorabilia"),
+(15, 7.00, "Articologenerale", "Fasce da capitano"),
+(16, 25.00, "Articologenerale", "Guantoni da portiere (versione fan)"),
+(17, 120.00, "Articolopersonale", "Maglietta ufficiale"),
+(18, 45.00, "Articolopersonale", "Pantaloncini ufficiale"),
+(19, 150.00, "Biglietto", "Biglietto partita vs Milan"),
+(20, 150.00, "Biglietto", "Biglietto partita vs Inter"),
+(21, 150.00, "Biglietto", "Biglietto partita vs Napoli"),
+(22, 30.00, "Visitaguidata", "Visita guidata");
+
 CREATE TABLE `juventusfc`.`abbonamento` (
   `IDabbonamento` INT NOT NULL,
   `Anno` INT NOT NULL,
@@ -1015,13 +789,6 @@ INSERT IGNORE INTO ordine (Codiceordine, Data, Rimborsato, CF) VALUES
 (5004, '2024-10-02', 0, 'YACSJS88O93JFEGJ'),
 (5005, '2024-10-03', 0, 'XKAKGK56J49AP11G');
 
-INSERT IGNORE INTO prodotto (Codiceprodotto, Importo, Codiceordine) VALUES
-(6001, 35, 5001),
-(6002, 45, 5002),
-(6003, 25, 5003),
-(6004, 79, 5004),
-(6005, 19, 5005);
-
 INSERT IGNORE INTO biglietto (Codiceprodotto, IDPartita)
 SELECT 6001, IDPartita FROM partita WHERE Data='2024-08-25' AND SquadraAvversaria='Udinese';
 INSERT IGNORE INTO biglietto (Codiceprodotto, IDPartita)
@@ -1034,14 +801,6 @@ INSERT IGNORE INTO articolo_personale (Codiceprodotto, CFCalciatore) VALUES
 (6004, 'RSSMRA85C01H501Z');
 INSERT IGNORE INTO articolo_generale (Codiceprodotto) VALUES
 (6005);
-
-INSERT IGNORE INTO presenze (CF, IDPartita)
-SELECT o.CF, b.IDPartita
-FROM ordine o
-JOIN prodotto p ON p.Codiceordine = o.Codiceordine
-JOIN biglietto b ON b.Codiceprodotto = p.Codiceprodotto
-LEFT JOIN presenze pr ON pr.CF=o.CF AND pr.IDPartita=b.IDPartita
-WHERE pr.CF IS NULL;
 
 -- SEED CONDIZIONALE ABBONAMENTO (compatibile con schemi diversi)
 SET @has_nome := (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
@@ -1214,7 +973,7 @@ PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 /* ======================================================================
    FINAL PATCH (APPLICATO DOPO IL FILE ALLEGATO) - MySQL 5.7/8.0
    Soddisfa i requisiti:
-   - PRODOTTO: rimuovi Codiceordine, aggiungi Tipologia ENUM('Articologenerale','Biglietto','Visitaguidata'),
+   - PRODOTTO: rimuovi Codiceordine, aggiungi Tipologia ENUM('Articolopersonale','Articologenerale','Biglietto','Visitaguidata'),
                limita a MAX 60 tuple (Codiceprodotto più piccoli), popola Tipologia in modo ciclico se NULL.
    - BIGLIETTO, ARTICOLO_PERSONALE, ARTICOLO_GENERALE, VISITA_GUIDATA:
        * NESSUN ID proprio -> PK = Codiceprodotto
@@ -1227,46 +986,7 @@ PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 USE `juventusfc`;
 
 -- ==================== PRODOTTO ====================
--- 1) Drop colonna Codiceordine se presente
-SET @has_cod_ord := (
-  SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
-  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME='prodotto' AND COLUMN_NAME='Codiceordine'
-);
-SET @sql := IF(@has_cod_ord > 0, 'ALTER TABLE prodotto DROP COLUMN Codiceordine', 'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
--- 2) Aggiungi Tipologia se manca
-SET @has_tipol := (
-  SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
-  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME='prodotto' AND COLUMN_NAME='Tipologia'
-);
-SET @sql := IF(@has_tipol = 0,
-  "ALTER TABLE prodotto ADD COLUMN Tipologia ENUM('Articologenerale','Biglietto','Visitaguidata') NULL",
-  'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
-
--- 3) Popola Tipologia dove è NULL (ciclica per Codiceprodotto)
-UPDATE prodotto p
-SET p.Tipologia = CASE ((p.Codiceprodotto - 1) % 3)
-  WHEN 0 THEN 'Articologenerale'
-  WHEN 1 THEN 'Biglietto'
-  WHEN 2 THEN 'Visitaguidata'
-END
-WHERE p.Tipologia IS NULL;
-
--- 4) Limita a MAX 60 record (tieni i Codiceprodotto più piccoli)
-DELETE p FROM prodotto p
-LEFT JOIN (
-  SELECT Codiceprodotto FROM prodotto ORDER BY Codiceprodotto ASC LIMIT 60
-) keepers ON keepers.Codiceprodotto = p.Codiceprodotto
-WHERE keepers.Codiceprodotto IS NULL;
-
--- 5) Tipologia NOT NULL + indice
-ALTER TABLE prodotto MODIFY Tipologia ENUM('Articologenerale','Biglietto','Visitaguidata') NOT NULL;
-SET @idx_tip := (SELECT COUNT(*) FROM INFORMATION_SCHEMA.STATISTICS
-  WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='prodotto' AND INDEX_NAME='idx_prodotto_tipologia');
-SET @sql := IF(@idx_tip=0, 'ALTER TABLE prodotto ADD INDEX idx_prodotto_tipologia (Tipologia)', 'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
 
 -- ==================== Helper: tabella temporanea per dedup per Codiceprodotto ====================
@@ -1305,11 +1025,23 @@ WHERE k.Codiceprodotto IS NULL;
 
 -- Se vuota, seed con prime 10 coppie coerenti (prodotti 'Biglietto' e ordini 1..10)
 SET @rb := 0; SET @ro := 0;
-  INSERT INTO biglietto (Codiceprodotto, Codiceordine)
-  SELECT b.Codiceprodotto, o.Codiceordine
-  FROM (SELECT Codiceprodotto, (@rb:=@rb+1) AS rn FROM prodotto WHERE Tipologia='Biglietto' ORDER BY Codiceprodotto LIMIT 10) b
-  JOIN (SELECT Codiceordine, (@ro:=@ro+1) AS rn FROM ordine ORDER BY Codiceordine LIMIT 10) o
+SET @rp := 0; SET @np := (SELECT COUNT(*) FROM partita);
+  INSERT INTO biglietto (Codiceprodotto, Codiceordine, IDPartita)
+  SELECT b.Codiceprodotto, o.Codiceordine, p.IDPartita
+  FROM (SELECT Codiceprodotto, (@rb:=@rb+1) AS rn
+        FROM prodotto
+        WHERE Tipologia='Biglietto'
+        ORDER BY Codiceprodotto
+        LIMIT 10) b
+  JOIN (SELECT Codiceordine, (@ro:=@ro+1) AS rn
+        FROM ordine
+        ORDER BY Codiceordine
+        LIMIT 10) o
     ON b.rn = o.rn
+  JOIN (SELECT IDPartita, (@rp:=@rp+1) AS rn
+        FROM partita
+        ORDER BY IDPartita) p
+    ON p.rn = ((b.rn - 1) % GREATEST(@np,1)) + 1
 WHERE NOT EXISTS (SELECT 1 FROM biglietto);
 
 
@@ -1337,7 +1069,7 @@ DELIMITER //
 CREATE TRIGGER bi_biglietto_tipologia BEFORE INSERT ON biglietto
 FOR EACH ROW
 BEGIN
-  DECLARE t ENUM('Articologenerale','Biglietto','Visitaguidata');
+  DECLARE t ENUM('Articolopersonale','Articologenerale','Biglietto','Visitaguidata');
   SELECT Tipologia INTO t FROM prodotto WHERE Codiceprodotto=NEW.Codiceprodotto;
   IF t <> 'Biglietto' THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Tipologia prodotto non coerente per BIGLIETTO';
@@ -1349,7 +1081,7 @@ DELIMITER //
 CREATE TRIGGER bu_biglietto_tipologia BEFORE UPDATE ON biglietto
 FOR EACH ROW
 BEGIN
-  DECLARE t ENUM('Articologenerale','Biglietto','Visitaguidata');
+  DECLARE t ENUM('Articolopersonale','Articologenerale','Biglietto','Visitaguidata');
   SELECT Tipologia INTO t FROM prodotto WHERE Codiceprodotto=NEW.Codiceprodotto;
   IF t <> 'Biglietto' THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Tipologia prodotto non coerente per BIGLIETTO';
@@ -1370,7 +1102,7 @@ SET @sql := IF(@has_id>0, 'ALTER TABLE articolo_personale DROP COLUMN IDArticolo
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
 DELETE ap FROM articolo_personale ap LEFT JOIN prodotto p ON p.Codiceprodotto=ap.Codiceprodotto WHERE p.Codiceprodotto IS NULL;
-DELETE ap FROM articolo_personale ap JOIN prodotto p ON p.Codiceprodotto=ap.Codiceprodotto WHERE p.Tipologia <> 'Articologenerale';
+DELETE ap FROM articolo_personale ap JOIN prodotto p ON p.Codiceprodotto=ap.Codiceprodotto WHERE p.Tipologia <> 'Articolopersonale';
 
 TRUNCATE tmp_keep;
 INSERT INTO tmp_keep(tname,Codiceprodotto,Codiceordine)
@@ -1380,12 +1112,14 @@ LEFT JOIN tmp_keep k ON k.tname='articolo_personale' AND k.Codiceprodotto=ap.Cod
 WHERE k.Codiceprodotto IS NULL;
 
 -- Seed se vuota
-SET @r1 := 0; SET @o1 := 0;
-  INSERT INTO articolo_personale (Codiceprodotto, Codiceordine)
-  SELECT p.Codiceprodotto, o.Codiceordine
-  FROM (SELECT Codiceprodotto, (@r1:=@r1+1) rn FROM prodotto WHERE Tipologia='Articologenerale' ORDER BY Codiceprodotto LIMIT 10) p
+SET @r1 := 0; SET @o1 := 0; SET @rc := 0; SET @nc := (SELECT COUNT(*) FROM calciatore);
+  INSERT INTO articolo_personale (Codiceprodotto, CFCalciatore, Codiceordine)
+  SELECT p.Codiceprodotto, c.CF, o.Codiceordine
+  FROM (SELECT Codiceprodotto, (@r1:=@r1+1) rn FROM prodotto WHERE Tipologia='Articolopersonale' ORDER BY Codiceprodotto LIMIT 10) p
   JOIN (SELECT Codiceordine, (@o1:=@o1+1) rn FROM ordine ORDER BY Codiceordine LIMIT 10 OFFSET 10) o
     ON p.rn = o.rn
+  JOIN (SELECT CF, (@rc:=@rc+1) rn FROM calciatore ORDER BY CF) c
+    ON c.rn = ((p.rn - 1) % GREATEST(@nc,1)) + 1
 WHERE NOT EXISTS (SELECT 1 FROM articolo_personale);
 
 
@@ -1410,9 +1144,9 @@ DELIMITER //
 CREATE TRIGGER bi_artpers_tipologia BEFORE INSERT ON articolo_personale
 FOR EACH ROW
 BEGIN
-  DECLARE t ENUM('Articologenerale','Biglietto','Visitaguidata');
+  DECLARE t ENUM('Articolopersonale','Articologenerale','Biglietto','Visitaguidata');
   SELECT Tipologia INTO t FROM prodotto WHERE Codiceprodotto=NEW.Codiceprodotto;
-  IF t <> 'Articologenerale' THEN
+  IF t <> 'Articolopersonale' THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Tipologia prodotto non coerente per ARTICOLO_PERSONALE';
   END IF;
 END//
@@ -1422,9 +1156,9 @@ DELIMITER //
 CREATE TRIGGER bu_artpers_tipologia BEFORE UPDATE ON articolo_personale
 FOR EACH ROW
 BEGIN
-  DECLARE t ENUM('Articologenerale','Biglietto','Visitaguidata');
+  DECLARE t ENUM('Articolopersonale','Articologenerale','Biglietto','Visitaguidata');
   SELECT Tipologia INTO t FROM prodotto WHERE Codiceprodotto=NEW.Codiceprodotto;
-  IF t <> 'Articologenerale' THEN
+  IF t <> 'Articolopersonale' THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Tipologia prodotto non coerente per ARTICOLO_PERSONALE';
   END IF;
 END//
@@ -1483,7 +1217,7 @@ DELIMITER //
 CREATE TRIGGER bi_artgen_tipologia BEFORE INSERT ON articolo_generale
 FOR EACH ROW
 BEGIN
-  DECLARE t ENUM('Articologenerale','Biglietto','Visitaguidata');
+  DECLARE t ENUM('Articolopersonale','Articologenerale','Biglietto','Visitaguidata');
   SELECT Tipologia INTO t FROM prodotto WHERE Codiceprodotto=NEW.Codiceprodotto;
   IF t <> 'Articologenerale' THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Tipologia prodotto non coerente per ARTICOLO_GENERALE';
@@ -1495,7 +1229,7 @@ DELIMITER //
 CREATE TRIGGER bu_artgen_tipologia BEFORE UPDATE ON articolo_generale
 FOR EACH ROW
 BEGIN
-  DECLARE t ENUM('Articologenerale','Biglietto','Visitaguidata');
+  DECLARE t ENUM('Articolopersonale','Articologenerale','Biglietto','Visitaguidata');
   SELECT Tipologia INTO t FROM prodotto WHERE Codiceprodotto=NEW.Codiceprodotto;
   IF t <> 'Articologenerale' THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Tipologia prodotto non coerente per ARTICOLO_GENERALE';
@@ -1556,7 +1290,7 @@ DELIMITER //
 CREATE TRIGGER bi_visita_tipologia BEFORE INSERT ON visita_guidata
 FOR EACH ROW
 BEGIN
-  DECLARE t ENUM('Articologenerale','Biglietto','Visitaguidata');
+  DECLARE t ENUM('Articolopersonale','Articologenerale','Biglietto','Visitaguidata');
   SELECT Tipologia INTO t FROM prodotto WHERE Codiceprodotto=NEW.Codiceprodotto;
   IF t <> 'Visitaguidata' THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Tipologia prodotto non coerente per VISITA_GUIDATA';
@@ -1568,7 +1302,7 @@ DELIMITER //
 CREATE TRIGGER bu_visita_tipologia BEFORE UPDATE ON visita_guidata
 FOR EACH ROW
 BEGIN
-  DECLARE t ENUM('Articologenerale','Biglietto','Visitaguidata');
+  DECLARE t ENUM('Articolopersonale','Articologenerale','Biglietto','Visitaguidata');
   SELECT Tipologia INTO t FROM prodotto WHERE Codiceprodotto=NEW.Codiceprodotto;
   IF t <> 'Visitaguidata' THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Tipologia prodotto non coerente per VISITA_GUIDATA';
