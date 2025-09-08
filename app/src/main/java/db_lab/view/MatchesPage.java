@@ -134,18 +134,18 @@ public class MatchesPage {
     private void configureUI() {
         lblTitle.setForeground(Color.WHITE);
         lblTitle.setFont(lblTitle.getFont().deriveFont(Font.BOLD, 22f));
-        // Carica subito il top seller magliette
+        // Carica subito il top seller merch
         try {
             Controller c = menu.getController();
             var top = (c != null) ? c.getTopJerseySeller().orElse(null) : null;
             if (top != null) {
                 String cognome = (top.cognome == null || top.cognome.isBlank()) ? "" : (" " + top.cognome);
-                lblTopSeller.setText("Giocatore con più magliette vendute: " + top.nome + cognome);
+                lblTopSeller.setText("Giocatore con più merch venduto: " + top.nome + cognome);
             } else {
-                lblTopSeller.setText("Giocatore con più magliette vendute: N/D");
+                lblTopSeller.setText("Giocatore con più merch venduto: N/D");
             }
         } catch (Exception ex) {
-            lblTopSeller.setText("Giocatore con più magliette vendute: errore");
+            lblTopSeller.setText("Giocatore con più merch venduto: errore");
         }
     }
 

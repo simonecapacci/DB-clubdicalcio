@@ -11,6 +11,9 @@ import db_lab.data.Prodotto;
 import db_lab.data.Calciatore;
 import db_lab.data.BestClient;
 import db_lab.data.MatchRevenue;
+import db_lab.data.PurchaseItem;
+import db_lab.data.OrderInfo;
+import db_lab.data.OrderItem;
 
 import java.sql.Connection;
 import java.util.List;
@@ -74,4 +77,12 @@ public interface Model {
 
     // Partite
     java.util.Optional<MatchRevenue> getMostProfitableMatch();
+
+    // Ordini
+    int finalizePurchase(String clienteCF, java.util.List<PurchaseItem> items);
+    java.util.List<OrderInfo> listRecentOrders(String clienteCF);
+    java.util.List<OrderItem> listOrderItems(int codiceOrdine);
+    db_lab.util.Pair<Double, Double> getOrderTotals(int codiceOrdine); // (lordo, netto)
+    boolean refundOrder(String clienteCF, int codiceOrdine);
+    boolean orderHasPastVisit(int codiceOrdine);
 }

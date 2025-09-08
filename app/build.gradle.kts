@@ -1,5 +1,6 @@
 plugins {
     application
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 repositories {
@@ -24,4 +25,18 @@ tasks.compileJava {
 
 application {
     mainClass = "db_lab.App"
+}
+
+// Ensure JARs have Main-Class for direct execution
+tasks.withType<Jar> {
+    manifest {
+        attributes("Main-Class" to "db_lab.App")
+    }
+}
+
+// Configure fat jar name (no classifier/version)
+tasks.shadowJar {
+    archiveBaseName.set("db-clubdicalcio")
+    archiveClassifier.set("")
+    archiveVersion.set("")
 }

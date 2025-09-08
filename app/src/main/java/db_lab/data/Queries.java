@@ -366,4 +366,99 @@ public final class Queries {
         ORDER BY TotaleIncasso DESC
         LIMIT 1
         """;
+
+    // --- Ordini: ultimi 30 giorni per cliente ---
+    public static final String LIST_RECENT_ORDERS_FOR_CLIENT =
+        """
+        SELECT Codiceordine, Data
+        FROM ordine
+        WHERE CF = ?
+          AND Rimborsato = 0
+          AND CAST(Data AS DATE) >= (CURDATE() - INTERVAL 30 DAY)
+        ORDER BY Data DESC, Codiceordine DESC
+        """;
+
+    // --- Dettagli articoli in un ordine ---
+    public static final String LIST_ORDER_ITEMS =
+        """
+        SELECT p.Nome, p.Tipologia, p.Importo
+        FROM (
+            SELECT Codiceprodotto, Codiceordine FROM biglietto
+            UNION ALL
+            SELECT Codiceprodotto, Codiceordine FROM articolo_personale
+            UNION ALL
+            SELECT Codiceprodotto, Codiceordine FROM articolo_generale
+            UNION ALL
+            SELECT Codiceprodotto, Codiceordine FROM visita_guidata
+        ) x
+        JOIN prodotto p ON p.Codiceprodotto = x.Codiceprodotto
+        WHERE x.Codiceordine = ?
+        """;
+
+    // --- Totale ordine scontato ---
+    public static final String ORDER_TOTAL_WITH_DISCOUNT =
+        """
+        SELECT o.Codiceordine,
+               SUM(p.Importo) AS TotaleLordo,
+               MAX(COALESCE(a.Sconto, CASE a.Tipo
+                 WHEN 'completo' THEN 20
+                 WHEN 'normale'  THEN 15
+                 WHEN 'essenziale' THEN 10
+                 ELSE 0 END, 0)) AS ScontoPerc,
+               SUM(p.Importo) * (1 - (MAX(COALESCE(a.Sconto, CASE a.Tipo
+                 WHEN 'completo' THEN 20
+                 WHEN 'normale'  THEN 15
+                 WHEN 'essenziale' THEN 10
+                 ELSE 0 END, 0)) / 100.0)) AS TotaleNetto
+        FROM ordine o
+        JOIN (
+            SELECT Codiceprodotto, Codiceordine FROM biglietto
+            UNION ALL
+            SELECT Codiceprodotto, Codiceordine FROM articolo_personale
+            UNION ALL
+            SELECT Codiceprodotto, Codiceordine FROM articolo_generale
+            UNION ALL
+            SELECT Codiceprodotto, Codiceordine FROM visita_guidata
+        ) x ON x.Codiceordine = o.Codiceordine
+        JOIN prodotto p ON p.Codiceprodotto = x.Codiceprodotto
+        LEFT JOIN (
+            SELECT CF, Anno, MAX(Sconto) AS Sconto, MAX(Tipodiabbonamento) AS Tipo
+            FROM abbonamento
+            GROUP BY CF, Anno
+        ) a ON a.CF = o.CF AND a.Anno = CAST(SUBSTRING(o.Data, 1, 4) AS UNSIGNED)
+        WHERE o.Codiceordine = ?
+        GROUP BY o.Codiceordine
+        """;
+
+    // --- Reso: eliminazione/clear articoli e ordine ---
+    public static final String REFUND_DELETE_ARTICOLO_PERSONALE =
+        """
+        DELETE FROM articolo_personale WHERE Codiceordine = ?
+        """;
+    public static final String REFUND_DELETE_ARTICOLO_GENERALE =
+        """
+        DELETE FROM articolo_generale WHERE Codiceordine = ?
+        """;
+    public static final String REFUND_CLEAR_BIGLIETTO =
+        """
+        UPDATE biglietto SET Codiceordine = NULL WHERE Codiceordine = ?
+        """;
+    public static final String REFUND_CLEAR_VISITA_GUIDATA =
+        """
+        DELETE FROM visita_guidata WHERE Codiceordine = ?
+        """;
+    public static final String REFUND_DELETE_ORDINE =
+        """
+        DELETE FROM ordine WHERE Codiceordine = ? AND CF = ?
+        """;
+
+    // --- Check: ordine contiene una visita guidata già passata? ---
+    public static final String ORDER_HAS_PAST_VISIT =
+        """
+        SELECT 1
+        FROM visita_guidata
+        WHERE Codiceordine = ?
+          AND DataVisita < CURDATE()
+        LIMIT 1
+        """;
 }

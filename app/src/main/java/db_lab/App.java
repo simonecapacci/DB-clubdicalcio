@@ -24,6 +24,5 @@ public final class App {
         view.setUp();
         var controller = new Controller(model);
         view.setController(controller);
-        //controller.userRequestedInitialPage();
     }
 }

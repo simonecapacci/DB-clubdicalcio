@@ -1196,6 +1196,13 @@ SELECT 2005, 14, p.IDPartita FROM partita p WHERE p.Data='2024-09-14' AND p.Squa
 INSERT IGNORE INTO biglietto (Codiceprodotto, Codiceordine, IDPartita)
 SELECT 2006, 15, p.IDPartita FROM partita p WHERE p.Data='2024-09-14' AND p.SquadraAvversaria='Lazio' AND p.InCasa=1 LIMIT 1;
 
+-- Presenze: associa alcuni clienti alle partite per cui hanno acquistato biglietti
+INSERT IGNORE INTO presenze (CF, IDPartita)
+SELECT o.CF, b.IDPartita
+FROM ordine o
+JOIN biglietto b ON b.Codiceordine = o.Codiceordine
+WHERE o.Codiceordine IN (10,11,12,13,14,15);
+
 /* ==================== ARTICOLO_GENERALE ==================== */
 SET @col := (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
   WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='articolo_generale' AND COLUMN_NAME='Codiceordine');

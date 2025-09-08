@@ -441,16 +441,23 @@ public class ShopPage {
     }
 
     private void onBuy() {
-        // For now, only show a summary of total and discounted total; does not persist order/items yet.
+        if (cart.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Il carrello è vuoto.");
+            return;
+        }
+        var cliente = userPage.getCliente();
+        if (cliente == null || cliente.CF == null || cliente.CF.isBlank()) {
+            JOptionPane.showMessageDialog(frame, "Devi essere loggato per acquistare.");
+            return;
+        }
+
+        // Compute totals (as before)
         double total = 0.0;
         for (CartItem item : cart.values()) total += item.prodotto.importo;
         double scontoPerc = 0.0;
-        var cliente = userPage.getCliente();
         try {
-            if (cliente != null && cliente.CF != null && !cliente.CF.isBlank()) {
-                Controller controller = menu.getController();
-                if (controller != null) scontoPerc = controller.getScontoPercentuale(cliente.CF, 2026);
-            }
+            Controller controller = menu.getController();
+            if (controller != null) scontoPerc = controller.getScontoPercentuale(cliente.CF, 2026);
         } catch (Exception ignore) {}
         DecimalFormat df = new DecimalFormat("0.00");
         String message;
@@ -463,7 +470,77 @@ public class ShopPage {
             message = "Totale carrello: € " + df.format(total) + "\n" +
                       "Nessuno sconto disponibile.";
         }
-        JOptionPane.showMessageDialog(frame, message, "Riepilogo acquisto", JOptionPane.INFORMATION_MESSAGE);
+
+        // Show confirmation dialog with Procedi button
+        JDialog dialog = new JDialog(frame, "Riepilogo acquisto", true);
+        dialog.setLayout(new BorderLayout());
+        dialog.getContentPane().setBackground(Color.BLACK);
+        JTextArea area = new JTextArea(message);
+        area.setEditable(false);
+        area.setBackground(Color.BLACK);
+        area.setForeground(Color.WHITE);
+        area.setFont(area.getFont().deriveFont(14f));
+        area.setBorder(BorderFactory.createEmptyBorder(16,16,16,16));
+        dialog.add(area, BorderLayout.CENTER);
+
+        JButton cancel = UIUtils.primary("Annulla");
+        JButton proceed = UIUtils.primary("Procedi");
+        JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        south.setBackground(Color.BLACK);
+        south.add(cancel);
+        south.add(proceed);
+        dialog.add(south, BorderLayout.SOUTH);
+
+        cancel.addActionListener(e -> dialog.dispose());
+        proceed.addActionListener(e -> {
+            // Build items and finalize order
+            java.util.List<db_lab.data.PurchaseItem> items = new java.util.ArrayList<>();
+            for (CartItem ci : cart.values()) {
+                Prodotto p = ci.prodotto;
+                String tip = p.tipologia != null ? p.tipologia : "";
+                String cfCal = ("Articolopersonale".equalsIgnoreCase(tip) ? ci.playerCF : null);
+                String dateVis = ("Visitaguidata".equalsIgnoreCase(tip) ? ci.visitDate : null);
+                String slotVis = ("Visitaguidata".equalsIgnoreCase(tip) ? ci.visitSlot : null);
+                try {
+                    int code = Integer.parseInt(p.codiceProdotto);
+                    items.add(new db_lab.data.PurchaseItem(code, tip, cfCal, dateVis, slotVis));
+                } catch (NumberFormatException nfe) {
+                    // skip malformed codes
+                }
+            }
+            if (items.isEmpty()) {
+                JOptionPane.showMessageDialog(dialog, "Nessun articolo valido nel carrello.");
+                return;
+            }
+
+            int orderId = -1;
+            try {
+                Controller controller = menu.getController();
+                if (controller != null) {
+                    orderId = controller.finalizePurchase(cliente.CF, items);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(dialog, "Errore durante l'acquisto: " + ex.getMessage());
+                return;
+            }
+            if (orderId <= 0) {
+                JOptionPane.showMessageDialog(dialog, "Acquisto non riuscito.");
+                return;
+            }
+
+            // Success: notify and cleanup
+            String header = "Ordine #" + orderId + " completato.";
+            JOptionPane.showMessageDialog(dialog, header + "\n\n" + message, "Acquisto completato", JOptionPane.INFORMATION_MESSAGE);
+            cart.clear();
+            updateCartButton();
+            updateTotals();
+            dialog.dispose();
+        });
+
+        dialog.setSize(520, 240);
+        dialog.setLocationRelativeTo(frame);
+        dialog.setVisible(true);
     }
 
     private static class CartItem {

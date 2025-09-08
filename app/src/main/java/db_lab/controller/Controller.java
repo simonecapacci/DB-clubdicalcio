@@ -13,6 +13,9 @@ import db_lab.data.Calciatore;
 import db_lab.data.BestClient;
 import db_lab.model.*;
 import db_lab.data.MatchRevenue;
+import db_lab.data.PurchaseItem;
+import db_lab.data.OrderInfo;
+import db_lab.data.OrderItem;
 
 public class Controller {
     private final Model model;
@@ -124,6 +127,31 @@ public class Controller {
 
     public java.util.Optional<MatchRevenue> getMostProfitableMatch() {
         return this.model.getMostProfitableMatch();
+    }
+
+    // --- Ordini ---
+    public int finalizePurchase(String clienteCF, java.util.List<PurchaseItem> items) {
+        return this.model.finalizePurchase(clienteCF, items);
+    }
+
+    public java.util.List<OrderInfo> listRecentOrders(String clienteCF) {
+        return this.model.listRecentOrders(clienteCF);
+    }
+
+    public java.util.List<OrderItem> listOrderItems(int codiceOrdine) {
+        return this.model.listOrderItems(codiceOrdine);
+    }
+
+    public db_lab.util.Pair<Double, Double> getOrderTotals(int codiceOrdine) {
+        return this.model.getOrderTotals(codiceOrdine);
+    }
+
+    public boolean refundOrder(String clienteCF, int codiceOrdine) {
+        return this.model.refundOrder(clienteCF, codiceOrdine);
+    }
+
+    public boolean orderHasPastVisit(int codiceOrdine) {
+        return this.model.orderHasPastVisit(codiceOrdine);
     }
 
 
