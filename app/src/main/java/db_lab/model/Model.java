@@ -10,6 +10,7 @@ import db_lab.data.TopSeller;
 import db_lab.data.Prodotto;
 import db_lab.data.Calciatore;
 import db_lab.data.BestClient;
+import db_lab.data.MatchRevenue;
 
 import java.sql.Connection;
 import java.util.List;
@@ -70,4 +71,7 @@ public interface Model {
 
     // Clienti
     java.util.List<BestClient> listBestClients();
+
+    // Partite
+    java.util.Optional<MatchRevenue> getMostProfitableMatch();
 }

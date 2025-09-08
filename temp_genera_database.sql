@@ -1166,6 +1166,36 @@ END//
 DELIMITER ;
 
 
+/* ==================== SEED BIGLIETTI: PARTITE PASSATE ==================== */
+-- Aggiunge alcuni biglietti venduti per partite in casa già giocate (idempotente)
+-- Prezzo fisso biglietto: 150.00 (eventuali sconti applicati a runtime via query)
+
+-- Prodotti Biglietto aggiuntivi (se non esistono)
+INSERT IGNORE INTO prodotto (Codiceprodotto, Importo, Tipologia, Nome) VALUES
+  (2001, 150.00, 'Biglietto', 'Biglietto vs Udinese - Curva A'),
+  (2002, 150.00, 'Biglietto', 'Biglietto vs Udinese - Curva B'),
+  (2003, 150.00, 'Biglietto', 'Biglietto vs Udinese - Distinti'),
+  (2004, 150.00, 'Biglietto', 'Biglietto vs Udinese - Tribuna'),
+  (2005, 150.00, 'Biglietto', 'Biglietto vs Lazio - Curva A'),
+  (2006, 150.00, 'Biglietto', 'Biglietto vs Lazio - Distinti');
+
+-- Associa i biglietti a ordini esistenti e a partite in casa del passato
+-- Udinese (2024-08-25, InCasa=1) -> 4 biglietti
+INSERT IGNORE INTO biglietto (Codiceprodotto, Codiceordine, IDPartita)
+SELECT 2001, 10, p.IDPartita FROM partita p WHERE p.Data='2024-08-25' AND p.SquadraAvversaria='Udinese' AND p.InCasa=1 LIMIT 1;
+INSERT IGNORE INTO biglietto (Codiceprodotto, Codiceordine, IDPartita)
+SELECT 2002, 11, p.IDPartita FROM partita p WHERE p.Data='2024-08-25' AND p.SquadraAvversaria='Udinese' AND p.InCasa=1 LIMIT 1;
+INSERT IGNORE INTO biglietto (Codiceprodotto, Codiceordine, IDPartita)
+SELECT 2003, 12, p.IDPartita FROM partita p WHERE p.Data='2024-08-25' AND p.SquadraAvversaria='Udinese' AND p.InCasa=1 LIMIT 1;
+INSERT IGNORE INTO biglietto (Codiceprodotto, Codiceordine, IDPartita)
+SELECT 2004, 13, p.IDPartita FROM partita p WHERE p.Data='2024-08-25' AND p.SquadraAvversaria='Udinese' AND p.InCasa=1 LIMIT 1;
+
+-- Lazio (2024-09-14, InCasa=1) -> 2 biglietti
+INSERT IGNORE INTO biglietto (Codiceprodotto, Codiceordine, IDPartita)
+SELECT 2005, 14, p.IDPartita FROM partita p WHERE p.Data='2024-09-14' AND p.SquadraAvversaria='Lazio' AND p.InCasa=1 LIMIT 1;
+INSERT IGNORE INTO biglietto (Codiceprodotto, Codiceordine, IDPartita)
+SELECT 2006, 15, p.IDPartita FROM partita p WHERE p.Data='2024-09-14' AND p.SquadraAvversaria='Lazio' AND p.InCasa=1 LIMIT 1;
+
 /* ==================== ARTICOLO_GENERALE ==================== */
 SET @col := (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
   WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='articolo_generale' AND COLUMN_NAME='Codiceordine');

@@ -12,6 +12,7 @@ import db_lab.data.Prodotto;
 import db_lab.data.Calciatore;
 import db_lab.data.BestClient;
 import db_lab.model.*;
+import db_lab.data.MatchRevenue;
 
 public class Controller {
     private final Model model;
@@ -119,6 +120,10 @@ public class Controller {
 
     public java.util.List<BestClient> listBestClients() {
         return this.model.listBestClients();
+    }
+
+    public java.util.Optional<MatchRevenue> getMostProfitableMatch() {
+        return this.model.getMostProfitableMatch();
     }
 
 

@@ -10,6 +10,7 @@ import db_lab.data.TopSeller;
 import db_lab.data.Prodotto;
 import db_lab.data.Calciatore;
 import db_lab.data.BestClient;
+import db_lab.data.MatchRevenue;
 
 import java.sql.Connection;
 import java.util.List;
@@ -156,6 +157,11 @@ public final class DBModel implements Model {
     @Override
     public java.util.List<BestClient> listBestClients() {
         return db_lab.data.BestClient.DAO.listTop(connection);
+    }
+
+    @Override
+    public java.util.Optional<MatchRevenue> getMostProfitableMatch() {
+        return java.util.Optional.ofNullable(db_lab.data.MatchRevenue.DAO.getMostProfitable(connection));
     }
 
 }

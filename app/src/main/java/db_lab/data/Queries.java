@@ -339,4 +339,31 @@ public final class Queries {
         ORDER BY TotaleSpeso DESC, c.Nome, c.Cognome
         LIMIT 30
         """;
+
+    // --- Partite: partita piu' redditizia (solo biglietti) ---
+    public static final String MOST_PROFITABLE_MATCH =
+        """
+        SELECT pt.IDPartita, pt.Data, pt.SquadraAvversaria, pt.Competizione, pt.Risultato,
+               COUNT(*) AS BigliettiVenduti,
+               SUM(p.Importo * (1 - (COALESCE(a.Sconto,
+                                            CASE a.Tipo
+                                                WHEN 'completo' THEN 20
+                                                WHEN 'normale'  THEN 15
+                                                WHEN 'essenziale' THEN 10
+                                                ELSE 0
+                                            END) / 100.0))) AS TotaleIncasso
+        FROM biglietto b
+        JOIN ordine o ON o.Codiceordine = b.Codiceordine
+        JOIN prodotto p ON p.Codiceprodotto = b.Codiceprodotto
+        JOIN partita pt ON pt.IDPartita = b.IDPartita
+        LEFT JOIN (
+            SELECT CF, Anno, MAX(Sconto) AS Sconto, MAX(Tipodiabbonamento) AS Tipo
+            FROM abbonamento
+            GROUP BY CF, Anno
+        ) a ON a.CF = o.CF AND a.Anno = CAST(SUBSTRING(o.Data, 1, 4) AS UNSIGNED)
+        WHERE o.Rimborsato = 0
+        GROUP BY pt.IDPartita, pt.Data, pt.SquadraAvversaria, pt.Competizione, pt.Risultato
+        ORDER BY TotaleIncasso DESC
+        LIMIT 1
+        """;
 }

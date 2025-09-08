@@ -91,9 +91,7 @@ public class AdminPage {
 
         btnTopClients.addActionListener(e -> showBestClientsDialog());
 
-        btnBestMatch.addActionListener(e ->
-            JOptionPane.showMessageDialog(frame, "Mostrare partita più redditizia (TODO)")
-        );
+        btnBestMatch.addActionListener(e -> showBestMatchDialog());
     }
 
     private void showBestClientsDialog() {
@@ -140,5 +138,60 @@ public class AdminPage {
         dialog.setSize(700, 420);
         dialog.setLocationRelativeTo(frame);
         dialog.setVisible(true);
+    }
+
+    private void showBestMatchDialog() {
+        Controller controller = menu.getController();
+        java.util.Optional<db_lab.data.MatchRevenue> opt = java.util.Optional.empty();
+        try {
+            if (controller != null) opt = controller.getMostProfitableMatch();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        if (opt == null || opt.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Nessun incasso disponibile.");
+            return;
+        }
+        var mr = opt.get();
+
+        JDialog dialog = new JDialog(frame, "Partita più redditizia", true);
+        dialog.setLayout(new BorderLayout());
+        dialog.getContentPane().setBackground(Color.BLACK);
+
+        java.text.DecimalFormat df = new java.text.DecimalFormat("0.00");
+
+        JPanel center = new JPanel();
+        center.setLayout(new GridLayout(0, 2, 10, 10));
+        center.setBackground(Color.BLACK);
+        center.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+
+        addRow(center, "Data:", mr.data);
+        addRow(center, "Avversaria:", mr.squadraAvversaria);
+        addRow(center, "Competizione:", mr.competizione);
+        addRow(center, "Risultato:", mr.risultato);
+        addRow(center, "Biglietti venduti:", String.valueOf(mr.bigliettiVenduti));
+        addRow(center, "Incasso totale (€):", df.format(mr.totaleIncasso));
+
+        JButton close = UIUtils.primary("Chiudi");
+        close.addActionListener(e -> dialog.dispose());
+        JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        south.setBackground(Color.BLACK);
+        south.add(close);
+
+        dialog.add(center, BorderLayout.CENTER);
+        dialog.add(south, BorderLayout.SOUTH);
+        dialog.setSize(520, 320);
+        dialog.setLocationRelativeTo(frame);
+        dialog.setVisible(true);
+    }
+
+    private static void addRow(JPanel panel, String label, String value) {
+        JLabel l = new JLabel(label);
+        l.setForeground(Color.WHITE);
+        l.setFont(l.getFont().deriveFont(Font.BOLD));
+        JLabel v = new JLabel(value != null ? value : "");
+        v.setForeground(Color.WHITE);
+        panel.add(l);
+        panel.add(v);
     }
 }

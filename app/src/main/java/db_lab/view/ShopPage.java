@@ -14,6 +14,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class ShopPage {
     private final JuventusMenu menu;
@@ -234,6 +237,10 @@ public class ShopPage {
             PlayerChoice choice = promptPlayerChoice();
             if (choice == null) return; // cancelled
             addToCart(p, choice.cf, choice.displayName);
+        } else if ("Visitaguidata".equalsIgnoreCase(p.tipologia)) {
+            VisitDetails vd = promptVisitDetails();
+            if (vd == null) return; // cancelled or invalid
+            addToCartVisit(p, vd);
         } else {
             addToCart(p, null, null);
         }
@@ -273,7 +280,10 @@ public class ShopPage {
             Prodotto p = item.prodotto;
             String nome = (p.nome == null || p.nome.isBlank()) ? ("Codice " + p.codiceProdotto) : p.nome;
             String who = (item.playerName != null && !item.playerName.isBlank()) ? (" — " + item.playerName) : "";
-            cartModel.addElement(nome + who + " — € " + df.format(p.importo));
+            String when = (item.visitDate != null && !item.visitDate.isBlank())
+                    ? (" — " + item.visitDate + (item.visitSlot != null && !item.visitSlot.isBlank() ? (" (" + item.visitSlot + ")") : ""))
+                    : "";
+            cartModel.addElement(nome + who + when + " — € " + df.format(p.importo));
         }
         JList<String> cartList = new JList<>(cartModel);
         cartList.setCellRenderer(new CartCellRenderer());
@@ -332,6 +342,8 @@ public class ShopPage {
     }
 
     private record PlayerChoice(String cf, String displayName) {}
+
+    private record VisitDetails(String dateISO, String slot) {}
 
     private PlayerChoice promptPlayerChoice() {
         Controller controller = menu.getController();
@@ -458,10 +470,94 @@ public class ShopPage {
         final Prodotto prodotto;
         final String playerCF;
         final String playerName;
+        final String visitDate;
+        final String visitSlot;
         CartItem(Prodotto p, String cf, String name) {
             this.prodotto = p;
             this.playerCF = cf;
             this.playerName = name;
+            this.visitDate = null;
+            this.visitSlot = null;
         }
+        CartItem(Prodotto p, String date, String slot, boolean isVisit) {
+            this.prodotto = p;
+            this.playerCF = null;
+            this.playerName = null;
+            this.visitDate = date;
+            this.visitSlot = slot;
+        }
+    }
+
+    private void addToCartVisit(Prodotto p, VisitDetails vd) {
+        String key = p.codiceProdotto + "#VISITA#" + vd.dateISO() + "#" + vd.slot();
+        if (cart.containsKey(key)) {
+            JOptionPane.showMessageDialog(frame, "Questa visita è già nel carrello.");
+            return;
+        }
+        cart.put(key, new CartItem(p, vd.dateISO(), vd.slot(), true));
+        updateCartButton();
+        String baseName = (p.nome != null && !p.nome.isBlank()) ? p.nome : ("Codice " + p.codiceProdotto);
+        JOptionPane.showMessageDialog(frame, "Aggiunto al carrello: " + baseName + " — " + vd.dateISO() + " (" + vd.slot() + ")");
+        updateTotals();
+    }
+
+    private VisitDetails promptVisitDetails() {
+        JDialog dialog = new JDialog(frame, "Visita guidata", true);
+        dialog.setLayout(new BorderLayout());
+        dialog.getContentPane().setBackground(Color.BLACK);
+
+        JPanel form = new JPanel(new GridLayout(0, 2, 10, 10));
+        form.setBackground(Color.BLACK);
+        form.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+
+        JLabel lblDate = new JLabel("Data della visita:"); lblDate.setForeground(Color.WHITE);
+        JLabel lblSlot = new JLabel("Periodo:"); lblSlot.setForeground(Color.WHITE);
+
+        // Date spinner, default tomorrow
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.add(java.util.Calendar.DAY_OF_MONTH, 1);
+        Date tomorrow = cal.getTime();
+        SpinnerDateModel model = new SpinnerDateModel(tomorrow, null, null, java.util.Calendar.DAY_OF_MONTH);
+        JSpinner spDate = new JSpinner(model);
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(spDate, "yyyy-MM-dd");
+        spDate.setEditor(editor);
+
+        JComboBox<String> cbSlot = new JComboBox<>(new String[]{"mattina", "pomeriggio"});
+
+        form.add(lblDate); form.add(spDate);
+        form.add(lblSlot); form.add(cbSlot);
+
+        JButton ok = UIUtils.primary("OK");
+        JButton cancel = UIUtils.primary("Annulla");
+        JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        south.setBackground(Color.BLACK);
+        south.add(cancel); south.add(ok);
+
+        dialog.add(form, BorderLayout.CENTER);
+        dialog.add(south, BorderLayout.SOUTH);
+        dialog.setSize(420, 200);
+        dialog.setLocationRelativeTo(frame);
+
+        final VisitDetails[] result = new VisitDetails[1];
+        ok.addActionListener(e -> {
+            Date selected = (Date) spDate.getValue();
+            LocalDate chosen = selected.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate today = LocalDate.now();
+            if (!chosen.isAfter(today)) {
+                JOptionPane.showMessageDialog(dialog, "La data deve essere futura.");
+                return;
+            }
+            String slot = ((String) cbSlot.getSelectedItem());
+            if (slot == null || !(slot.equals("mattina") || slot.equals("pomeriggio"))) {
+                JOptionPane.showMessageDialog(dialog, "Periodo non valido (scegli 'mattina' o 'pomeriggio').");
+                return;
+            }
+            result[0] = new VisitDetails(chosen.toString(), slot);
+            dialog.dispose();
+        });
+        cancel.addActionListener(e -> dialog.dispose());
+
+        dialog.setVisible(true);
+        return result[0];
     }
 }
