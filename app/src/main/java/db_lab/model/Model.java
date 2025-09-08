@@ -7,6 +7,9 @@ import db_lab.data.Dirigente;
 import db_lab.data.GoalPersonali;
 import db_lab.data.Partita;
 import db_lab.data.TopSeller;
+import db_lab.data.Prodotto;
+import db_lab.data.Calciatore;
+import db_lab.data.BestClient;
 
 import java.sql.Connection;
 import java.util.List;
@@ -57,4 +60,14 @@ public interface Model {
     // Abbonamenti
     boolean addAbbonamento(String cf, String tipoAbbonamento, int anno);
     boolean hasAbbonamento(String cf, int anno);
+    float getScontoPercentuale(String cf, int anno);
+
+    // Prodotti
+    java.util.List<Prodotto> listProdotti();
+
+    // Calciatori
+    java.util.List<Calciatore> listCalciatori();
+
+    // Clienti
+    java.util.List<BestClient> listBestClients();
 }

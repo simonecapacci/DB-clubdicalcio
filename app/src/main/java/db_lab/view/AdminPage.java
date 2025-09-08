@@ -2,6 +2,8 @@ package db_lab.view;
 
 import db_lab.data.Dirigente;
 import db_lab.util.UIUtils;
+import db_lab.controller.Controller;
+import db_lab.data.BestClient;
 
 import javax.swing.*;
 import java.awt.*;
@@ -87,12 +89,56 @@ public class AdminPage {
             page.setUp();
         });
 
-        btnTopClients.addActionListener(e ->
-            JOptionPane.showMessageDialog(frame, "Mostrare migliori clienti (TODO)")
-        );
+        btnTopClients.addActionListener(e -> showBestClientsDialog());
 
         btnBestMatch.addActionListener(e ->
             JOptionPane.showMessageDialog(frame, "Mostrare partita più redditizia (TODO)")
         );
+    }
+
+    private void showBestClientsDialog() {
+        Controller controller = menu.getController();
+        java.util.List<BestClient> best = java.util.Collections.emptyList();
+        try {
+            if (controller != null) best = controller.listBestClients();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        if (best == null || best.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Nessun ordine trovato.");
+            return;
+        }
+
+        JDialog dialog = new JDialog(frame, "Migliori clienti", true);
+        dialog.setLayout(new BorderLayout());
+        dialog.getContentPane().setBackground(Color.BLACK);
+
+        String[] cols = {"Pos", "CF", "Nome", "Cognome", "Totale Speso (€)"};
+        Object[][] data = new Object[best.size()][cols.length];
+        java.text.DecimalFormat df = new java.text.DecimalFormat("0.00");
+        for (int i = 0; i < best.size(); i++) {
+            BestClient bc = best.get(i);
+            data[i][0] = (i + 1);
+            data[i][1] = bc.CF;
+            data[i][2] = bc.nome;
+            data[i][3] = bc.cognome;
+            data[i][4] = df.format(bc.totaleSpeso);
+        }
+        JTable table = new JTable(data, cols);
+        table.setFillsViewportHeight(true);
+        table.setEnabled(false);
+        JScrollPane sp = new JScrollPane(table);
+        dialog.add(sp, BorderLayout.CENTER);
+
+        JButton close = UIUtils.primary("Chiudi");
+        close.addActionListener(e -> dialog.dispose());
+        JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        south.setBackground(Color.BLACK);
+        south.add(close);
+        dialog.add(south, BorderLayout.SOUTH);
+
+        dialog.setSize(700, 420);
+        dialog.setLocationRelativeTo(frame);
+        dialog.setVisible(true);
     }
 }

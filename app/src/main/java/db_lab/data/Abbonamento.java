@@ -50,13 +50,39 @@ public class Abbonamento {
                     }
                 }
 
-                try (var psIns = DAOUtils.prepare(connection, Queries.INSERT_ABBONAMENTO, nextId, anno, tipoAbbonamento, cf)) {
+                float sconto = computeScontoPercentuale(tipoAbbonamento);
+                try (var psIns = DAOUtils.prepare(connection, Queries.INSERT_ABBONAMENTO, nextId, anno, tipoAbbonamento, cf, sconto)) {
                     psIns.executeUpdate();
                     return true;
                 }
             } catch (SQLException e) {
                 return false;
             }
+        }
+
+        public static float getScontoPercentuale(String cf, int anno, Connection connection) {
+            if (cf == null || cf.isBlank()) return 0f;
+            try (
+                var ps = DAOUtils.prepare(connection, Queries.GET_SCONTO_ABBONAMENTO, cf, anno);
+                var rs = ps.executeQuery();
+            ) {
+                if (rs.next()) {
+                    return rs.getFloat("Sconto");
+                }
+                return 0f;
+            } catch (SQLException e) {
+                return 0f;
+            }
+        }
+
+        private static float computeScontoPercentuale(String tipo) {
+            String t = tipo == null ? "" : tipo.trim().toLowerCase();
+            return switch (t) {
+                case "completo" -> 20f;
+                case "normale" -> 15f;
+                case "essenziale" -> 10f;
+                default -> 0f;
+            };
         }
     }
 }

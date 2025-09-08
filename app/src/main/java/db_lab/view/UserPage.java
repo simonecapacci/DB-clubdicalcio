@@ -12,6 +12,7 @@ public class UserPage {
     private final JuventusMenu menu;
     private final JFrame frame;
     private final Cliente cliente;
+    private boolean actionsWired = false;
 
     // Bottoni
     private final JButton btnShop = UIUtils.primary("Shop");
@@ -24,6 +25,7 @@ public class UserPage {
         this.frame = frame;
         this.cliente = maybeCliente;
     }
+    public Cliente getCliente() { return this.cliente; }
     //qjsL8Xzc
     //martina.bianchi629@email.com
     /** Costruisce e mostra la pagina utente dentro lo stesso frame del menu. */
@@ -88,13 +90,12 @@ public class UserPage {
     }
 
     private void wireActions() {
+        if (actionsWired) return; // avoid duplicate listeners on repeated setUp()
+        actionsWired = true;
         Controller controller = (menu != null) ? menu.getController() : null;
 
         btnShop.addActionListener(e -> {
-            // TODO: apri/passa alla pagina "Shop"
-            // Esempio di punto di aggancio:
-            // if (controller != null) controller.userRequestedShopPage(frame);
-            JOptionPane.showMessageDialog(frame, "Aprire pagina Shop (TODO)");
+            this.goShopPage();
         });
 
         btnAbbonati.addActionListener(e -> {
@@ -166,5 +167,12 @@ public class UserPage {
         cp.removeAll();
         final TopPlayersPage tpp = new TopPlayersPage(menu, this, frame);
         tpp.setUp();
+    }
+
+    private void goShopPage() {
+        var cp = frame.getContentPane();
+        cp.removeAll();
+        final ShopPage shop = new ShopPage(menu, this, frame);
+        shop.setUp();
     }
 }

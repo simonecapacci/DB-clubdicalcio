@@ -549,6 +549,7 @@ CREATE TABLE `juventusfc`.`abbonamento` (
   `IDabbonamento` INT NOT NULL,
   `Anno` INT NOT NULL,
   `Tipodiabbonamento` VARCHAR(45) NOT NULL,
+  `Sconto` FLOAT NOT NULL DEFAULT 0,
   PRIMARY KEY (`IDabbonamento`),
   UNIQUE INDEX `IDabbonamento_UNIQUE` (`IDabbonamento` ASC) VISIBLE);
 ALTER TABLE abbonamento

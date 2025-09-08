@@ -119,5 +119,25 @@ public class Calciatore {
             }
         }
 
+        public static java.util.List<Calciatore> listAll(Connection connection) {
+            java.util.List<Calciatore> list = new java.util.ArrayList<>();
+            try (
+                var ps = DAOUtils.prepare(connection, Queries.LIST_CALCIATORI);
+                var rs = ps.executeQuery();
+            ) {
+                while (rs.next()) {
+                    String cf = rs.getString("CF");
+                    String nome = rs.getString("Nome");
+                    String cognome = rs.getString("Cognome");
+                    int numero = rs.getInt("NumeroDiMaglia");
+                    // 'posizione' non presente: set a 0
+                    list.add(new Calciatore(0, numero, nome, cognome, cf));
+                }
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
+            return list;
+        }
+
     }
 }

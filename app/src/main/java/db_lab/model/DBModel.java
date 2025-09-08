@@ -7,6 +7,9 @@ import db_lab.data.Dirigente;
 import db_lab.data.GoalPersonali;
 import db_lab.data.Partita;
 import db_lab.data.TopSeller;
+import db_lab.data.Prodotto;
+import db_lab.data.Calciatore;
+import db_lab.data.BestClient;
 
 import java.sql.Connection;
 import java.util.List;
@@ -133,6 +136,26 @@ public final class DBModel implements Model {
     @Override
     public boolean hasAbbonamento(String cf, int anno) {
         return db_lab.data.Abbonamento.DAO.hasAbbonamento(cf, anno, connection);
+    }
+
+    @Override
+    public float getScontoPercentuale(String cf, int anno) {
+        return db_lab.data.Abbonamento.DAO.getScontoPercentuale(cf, anno, connection);
+    }
+
+    @Override
+    public java.util.List<Prodotto> listProdotti() {
+        return db_lab.data.Prodotto.DAO.listAll(connection);
+    }
+
+    @Override
+    public java.util.List<Calciatore> listCalciatori() {
+        return db_lab.data.Calciatore.DAO.listAll(connection);
+    }
+
+    @Override
+    public java.util.List<BestClient> listBestClients() {
+        return db_lab.data.BestClient.DAO.listTop(connection);
     }
 
 }

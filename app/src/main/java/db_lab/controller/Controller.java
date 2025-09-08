@@ -8,6 +8,9 @@ import java.util.Objects;
 import javax.swing.JFrame;
 
 import db_lab.data.*;
+import db_lab.data.Prodotto;
+import db_lab.data.Calciatore;
+import db_lab.data.BestClient;
 import db_lab.model.*;
 
 public class Controller {
@@ -99,6 +102,23 @@ public class Controller {
 
     public boolean hasAbbonamento(String cf, int anno) {
         return this.model.hasAbbonamento(cf, anno);
+    }
+
+    public float getScontoPercentuale(String cf, int anno) {
+        return this.model.getScontoPercentuale(cf, anno);
+    }
+
+    // --- Prodotti ---
+    public java.util.List<Prodotto> listProdotti() {
+        return this.model.listProdotti();
+    }
+
+    public java.util.List<Calciatore> listCalciatori() {
+        return this.model.listCalciatori();
+    }
+
+    public java.util.List<BestClient> listBestClients() {
+        return this.model.listBestClients();
     }
 
 

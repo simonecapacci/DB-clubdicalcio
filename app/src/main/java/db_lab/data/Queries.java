@@ -274,8 +274,8 @@ public final class Queries {
 
     public static final String INSERT_ABBONAMENTO =
         """
-        INSERT INTO abbonamento (IDabbonamento, Anno, Tipodiabbonamento, CF)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO abbonamento (IDabbonamento, Anno, Tipodiabbonamento, CF, Sconto)
+        VALUES (?, ?, ?, ?, ?)
         """;
 
     public static final String EXISTS_ABBONAMENTO_PER_ANNO =
@@ -284,5 +284,59 @@ public final class Queries {
         FROM abbonamento
         WHERE CF = ? AND Anno = ?
         LIMIT 1
+        """;
+
+    public static final String GET_SCONTO_ABBONAMENTO =
+        """
+        SELECT Sconto
+        FROM abbonamento
+        WHERE CF = ? AND Anno = ?
+        LIMIT 1
+        """;
+
+    // --- Prodotti ---
+    public static final String LIST_PRODOTTI =
+        """
+        SELECT Codiceprodotto, Importo, Nome, Tipologia
+        FROM prodotto
+        ORDER BY CASE Tipologia
+                   WHEN 'Articologenerale' THEN 1
+                   WHEN 'Articolopersonale' THEN 2
+                   WHEN 'Biglietto' THEN 3
+                   WHEN 'Visitaguidata' THEN 4
+                   ELSE 5
+                 END,
+                 Nome,
+                 Codiceprodotto
+        """;
+
+    // --- Calciatori ---
+    public static final String LIST_CALCIATORI =
+        """
+        SELECT CF, Nome, Cognome, NumeroDiMaglia
+        FROM calciatore
+        ORDER BY Nome, Cognome
+        """;
+
+    // --- Clienti: migliori clienti per totale speso ---
+    public static final String LIST_BEST_CLIENTI =
+        """
+        SELECT c.CF, c.Nome, c.Cognome, SUM(p.Importo) AS TotaleSpeso
+        FROM ordine o
+        JOIN cliente c ON c.CF = o.CF
+        JOIN (
+            SELECT Codiceordine, Codiceprodotto FROM biglietto
+            UNION ALL
+            SELECT Codiceordine, Codiceprodotto FROM articolo_personale
+            UNION ALL
+            SELECT Codiceordine, Codiceprodotto FROM articolo_generale
+            UNION ALL
+            SELECT Codiceordine, Codiceprodotto FROM visita_guidata
+        ) x ON x.Codiceordine = o.Codiceordine
+        JOIN prodotto p ON p.Codiceprodotto = x.Codiceprodotto
+        WHERE o.Rimborsato = 0
+        GROUP BY c.CF, c.Nome, c.Cognome
+        ORDER BY TotaleSpeso DESC, c.Nome, c.Cognome
+        LIMIT 30
         """;
 }
